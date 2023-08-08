@@ -122,7 +122,9 @@ Besides the COCOAPI, you also need to download the `instances_train2017.json` CO
 That's it. You should have the necessary background images downloaded now. You can use these images to train your object detection model. The downloaded images and labels are in YOLO (Darknet) format. If you want to convert the images and labels to a different format, you can try [datumaro](https://openvinotoolkit.github.io/datumaro/latest/docs/command-reference/context_free/convert.html#convert). For example, to convert it to the YOLO Ultralytics format, you would run:
 
 ```bash
-datum convert -i cvat_dataset -if yolo -f yolo_ultralytics -o yolo_v8_dataset -- --save-media
+datum convert -i bg_dataset -if yolo -f yolo_ultralytics -o yolo_v8_dataset -- --save-media
 ```
+
+Alternatively, you could simply manually copy and paste the images and labels into the images/train and labels/train folder respectively of an already existing YOLOv8 dataset.
 
 Thanks for reading!
