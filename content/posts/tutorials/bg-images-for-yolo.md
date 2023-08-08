@@ -29,7 +29,7 @@ newsletter: false
 disable_comments: false
 ---
 
-# Introduction
+## Introduction
 
 One prominent problem in object detection is the presence of false positives. False positives are objects that are detected by the model but are not actually present in the image. This is a problem because it can lead to the model detecting objects that are not present in the image.
 
@@ -37,7 +37,7 @@ One way of reducing such false positives is to train the model on negative image
 
 In this short guide, I will be showing a way to download negative images using the COCOAPI.
 
-# Prerequisites
+## Prerequisites
 
  The COCOAPI is a Python API that allows you to download images from the COCO dataset. The COCO dataset is a large-scale object detection, segmentation, and captioning dataset. It contains over 200,000 images and 80 object categories. The COCOAPI is a great tool for downloading images for training object detection models.
 
@@ -49,7 +49,7 @@ To install the COCOAPI, run the following command in your terminal:
 
 Besides the COCOAPI, you also need to download the `instances_train2017.json` COCO annotations file which will be used to download the images. You can download the `.zip` file containing the COCO annotations from [here](https://cocodataset.org/#download) under the **Annotations** section labeled **2017 Train/Val annotations**. Extract the downloaded file to get the `instances_train2017.json` file.
 
-# Downloading the images
+## Downloading the images
 
 1. Fire up your Jupyter Notebook or the Python console.
 2. Import the necessary packages:
@@ -117,7 +117,7 @@ Besides the COCOAPI, you also need to download the `instances_train2017.json` CO
             pass
     ```
 
-# Conclusion
+## Conclusion
 
 That's it. You should have the necessary background images downloaded now. You can use these images to train your object detection model. If you want to convert the images and labels to a different format, you can try [datumaro](https://openvinotoolkit.github.io/datumaro/latest/docs/command-reference/context_free/convert.html#convert).
 
