@@ -62,7 +62,7 @@ Besides the COCOAPI, you also need to download the `instances_train2017.json` CO
 
 3. Define the classes to be excluded from the downloaded images. This is because we can't use images that contain classes that we are trying to detect as background images as that would cause false negatives.
 
-    The COCO classes are listed here. You will have to find the classes that you are detecting from this list and use that exact same label in the `exclude_classes` list. For example, if you are detecting cars, you will have to use the label `car` and not `cars` or `Car` or `Cars`. This includes classes that may be similar to the classes present in COCO. For example, if you are detecting `pedestrians`, you will have to exclude the label `person` as it is similar to `pedestrian`.
+    The COCO classes are listed [here](https://github.com/ultralytics/yolov5/blob/df48c205c5fc7be5af6b067da1f7cb3efb770d88/data/coco.yaml). You will have to find the classes that you are detecting from this list and use that exact same label in the `exclude_classes` list. For example, if you are detecting cars, you will have to use the label `car` and not `cars` or `Car` or `Cars`. This includes classes that may be similar to the classes present in COCO. For example, if you are detecting `pedestrians`, you will have to exclude the label `person` as it is similar to `pedestrian`.
 
     ```python
     DETECTOR_CLASSES = ['person', 'car'] # Specify the COCO classes that you are detecting
