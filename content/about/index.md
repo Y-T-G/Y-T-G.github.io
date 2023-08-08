@@ -8,17 +8,17 @@ description: Learn more about my background and experience.
 
 ## My Background
 
-I am a Masters student at Universiti Teknologi Malaysia. My research is about improving generalizability of lightweight object detectors so that they perform accurate detection without the overhead of larger models that achieve similar performance at a higher cost.
+I am a Masters student at Universiti Teknologi Malaysia. My Masters research is on improving generalizability of lightweight object detectors so that they perform as well as cumbersome models without sacrificing speed and efficiency.
 
 ## My Experience
 
-I have an year long experience in building and optimizing computer vision models and applications in a corporate setting.
+I have almost an year of experience in building and optimizing computer vision models and applications for production.
 
 ### Computer Vision Expert @ Innotec Solutions (July 2023 - Present)
 
 A CCTV service provider where I primarily offered consultancy services.
 
-- Trained employee on data curation, labeling and model training using CVAT, AWS EC2 and YOLO.
+- Trained employee to perform data curation, labeling using CVAT, and model training using AWS EC2 and YOLO.
 - Assisted in developing and improving accuracy of detection models.
 - Provided expert advice on model training and deployment queries.
 
