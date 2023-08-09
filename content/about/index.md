@@ -22,7 +22,7 @@ A CCTV service provider where I primarily offered consultancy services.
 - Assisted in developing and improving accuracy of detection models.
 - Provided expert advice on model training and deployment queries.
 
-### Computer Vision Intern @ Tapway (Jan 2022 - Oct 2022)
+### Computer Vision Intern @ Tapway (Jan 2022 - Sep 2022)
 
 An AI startup where I worked on projects from high-profile clients such as PLUS, RTS, KLK and others which are now deployed to production.
 
