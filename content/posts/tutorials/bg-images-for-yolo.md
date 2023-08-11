@@ -31,15 +31,15 @@ disable_comments: false
 
 ## Introduction
 
-One prominent problem in object detection is the presence of false positives. False positives are objects that are detected by the model but are not actually present in the image. This is a problem because it can lead to the model detecting objects that are not present in the image.
+One prominent problem in object detection is the presence of false positives. False positives are objects that are detected by the model but are not actually present in the image.
 
-One way of reducing such false positives is to train the model on negative images. Negative images are images that do not contain any objects. This helps the model learn what an image without objects looks like, so that it understands what is to be considered an object and what is to be regarded as background. In fact, the YOLOv8 guide suggests that the model be trained on 10% negative images.
+A way of reducing such false positives is to train the model on negative images. Negative images are images that do not contain any objects. This helps the model learn what an image without objects looks like, so that it understands what is to be considered an object and what is to be regarded as background. In fact, the YOLOv8 guide suggests that the model be trained on 10% negative images.
 
-In this short guide, I will be showing a way to download negative images using the COCOAPI.
+In the following sections, I explain how to download negative images using the COCOAPI.
 
 ## Prerequisites
 
- The COCOAPI is a Python API that allows you to download images from the COCO dataset. The COCO dataset is a large-scale object detection, segmentation, and captioning dataset. It contains over 200,000 images and 80 object categories. The COCOAPI is a great tool for downloading images for training object detection models.
+The COCOAPI is a Python API that allows you to easily explore the COCO dataset by providing useful methods to select and filter images based on the object class and other metadata that is associated with each object in an image. Consequently, we can leverage it to specifically filter and download images that would act as negative images for our use-case.
 
 To install the COCOAPI, run the following command in your terminal:
   
@@ -47,7 +47,7 @@ To install the COCOAPI, run the following command in your terminal:
   pip install pycocotools
   ```
 
-Besides the COCOAPI, you also need to download the `instances_train2017.json` COCO annotations file which will be used to download the images. You can download the `.zip` file containing the COCO annotations from [here](https://cocodataset.org/#download) under the **Annotations** section labeled **2017 Train/Val annotations**. Extract the downloaded file to get the `instances_train2017.json` file.
+Besides the COCOAPI, you also need to download the `instances_train2017.json` COCO annotations file which would be loaded into the API to perform the filtering necessary. You can download the `.zip` file containing the COCO annotations from [here](https://cocodataset.org/#download) under the **Annotations** section labeled **2017 Train/Val annotations**. Extract the downloaded file to get the `instances_train2017.json` file.
 
 ## Downloading the images
 
@@ -119,6 +119,12 @@ Besides the COCOAPI, you also need to download the `instances_train2017.json` CO
 
 ## Conclusion
 
-That's it. You should have the necessary background images downloaded now. You can use these images to train your object detection model. If you want to convert the images and labels to a different format, you can try [datumaro](https://openvinotoolkit.github.io/datumaro/latest/docs/command-reference/context_free/convert.html#convert).
+That's it. You should have the necessary background images downloaded now. You can use these images to train your object detection model. The downloaded images and labels are in YOLO (Darknet) format. If you want to convert the images and labels to a different format, you can try [datumaro](https://openvinotoolkit.github.io/datumaro/latest/docs/command-reference/context_free/convert.html#convert). For example, to convert it to the YOLO Ultralytics format, you would run:
+
+```bash
+datum convert -i bg_dataset -if yolo -f yolo_ultralytics -o yolo_v8_dataset -- --save-media
+```
+
+Alternatively, you could simply manually copy and paste the images and labels into the images/train and labels/train folder respectively of an already existing YOLOv8 dataset.
 
 Thanks for reading!
