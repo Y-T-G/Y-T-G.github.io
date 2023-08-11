@@ -1,0 +1,7 @@
+{{ with .Get 0 }}
+{{ $url := . }}
+{{ $contentData := printf "https://api.github.com/repos/%s/contents/README.md" $url | getJSON }}
+{{ $contentBase64 := index $contentData "content" }}
+{{ $contentDecoded := $contentBase64 | base64Decode | replaceRE "^#" "##"}}
+{{ $contentDecoded | markdownify}}
+{{ end }}
