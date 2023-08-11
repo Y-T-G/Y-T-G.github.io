@@ -40,6 +40,8 @@ The `pickle` module allows to dump and load almost any Python object. This is us
 
 A function usually takes some inputs to produce some outputs. This means, to be able to call a function, we need to have the required inputs available. When a function is deeply embedded into a codebase, the inputs it receives most likely would have undergone a lot a processing that is difficult replicate by hand. This is where `pickle` comes in. We can use `pickle` to save the processed inputs right before it is passed to the function and then load it in a different session to call the function with the same inputs. This way, we can test the function without having to run the whole program.
 
+## An Example
+
 Recently, for my [Blur Anything]({{< ref "/projects/blur-anything/index.md" >}}) project, I wanted to integrate MobileSAM with ONNX inference into the existing codebase which was using the vanilla PyTorch inference frontend. The original inference was handled by the `predict()` function responsible for returning the outputs from the SAM model as part of the `BaseSegmenter` class. The `predict()` function looked like this:
 
 ```python
