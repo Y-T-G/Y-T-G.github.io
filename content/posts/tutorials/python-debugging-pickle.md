@@ -7,7 +7,7 @@ slug: debugging-python-pickling-trick
 author: Mohammed Yasin
 
 draft: false
-date: 2023-08-12T12:32:00+08:00
+date: 2023-08-12T00:32:00+08:00
 lastmod:
 expiryDate: 
 publishDate: 
