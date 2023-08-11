@@ -71,7 +71,7 @@ With the `prompts` variable dumped, I can now simply start a Jupyter Notebook an
 
 By knowing the outputs from the original unmodified function, I can start creating a new function called `predict_onnx()` that uses the ONNX runtime to perform similar inference on the same inputs to produce the same outputs. I don't have to worry about running the whole program to test any of the changes, as I can simply call the function and check the outputs to ensure parity.
 
-Moreover, Python makes it easy to add a new function to an existing instance of a class. I can simply assign the `predict_onnx()` function to the `BaseSegmenter` instance and the function will have access to the `self` property of the instance:
+Moreover, Python makes it easy to add a new function as a method an existing object of a class. I can simply assign the `predict_onnx()` function to the `BaseSegmenter` instance and the method will have access to the `self` property of the instance:
 
 ```python
 from base_segmenter import BaseSegmenter
@@ -85,7 +85,7 @@ def predict_onnx(self, prompts, mode, multimask=True):
     ...
     return masks, scores, logits
 
-segmenter.predict_onnx = predict_onnx()
+segmenter.predict_onnx = predict_onnx
 
 #prompts that was loaded from the pickle file
 segmenter.predict_onnx(prompts, mode='mask')
