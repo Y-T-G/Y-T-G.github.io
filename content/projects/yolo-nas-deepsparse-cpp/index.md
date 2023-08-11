@@ -1,6 +1,6 @@
 ---
 title: YOLO-NAS-DeepSparse.cpp
-seo_title: YOLO-NAS-DeepSparse.cpp
+seo_title: YOLO-NAS on NeuralMagic's DeepSparse
 summary: YOLO-NAS in C++, this time utilizing DeepSparse.
 description: This implementation speeds up YOLO-NAS inference time on CPUs by leveraging DeepSparse.
 slug: YOLO-NAS-DeepSparse-cpp

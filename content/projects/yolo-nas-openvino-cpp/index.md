@@ -1,6 +1,6 @@
 ---
 title: YOLO-NAS-OpenVINO.cpp
-seo_title: YOLO-NAS-OpenVINO.cpp
+seo_title: YOLO-NAS with OpenVINO C++ Backend
 summary: C++ implementation of YOLO-NAS with an OpenVINO backend.
 description: YOLO-NAS is a state-of-the-art object detector by Deci AI. This project implements the YOLO-NAS object detector in C++ with an OpenVINO backend to speed up inference performance.
 slug: YOLO-NAS-OpenVINO-cpp

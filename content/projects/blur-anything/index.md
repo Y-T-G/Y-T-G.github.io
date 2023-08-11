@@ -1,6 +1,6 @@
 ---
 title: Blur-Anything
-seo_title: Blur Anything
+seo_title: "Blur Anything: Track and blur any object in a video with the click of a button."
 summary: Track and blur any object in a video with the click of a button.
 description: Blur Anything is an optimized adaptation of Track-Anything (2023), utilizing Meta’s Segment Anything for downstream blurring task in a video.
 slug: blur-anything
