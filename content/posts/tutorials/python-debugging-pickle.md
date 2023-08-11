@@ -91,4 +91,6 @@ segmenter.predict_onnx(prompts, mode='mask')
 
 Now all I need to do is make sure the outputs produced by the `predict_onnx()` is correct and equivalent to the one produced by the original `predict()` function. Once I do that, I can add my new function to the `BaseSegmenter` class and rename the old `predict()` function to `predict_pt()`. I will then define `self.predict` to point to either `predict_pt` or `predict_onnx` based on whether I am using the PyTorch or ONNX runtime. This way, I can easily switch between the two runtimes without having to change any other part of the codebase.
 
+## Conclusion
+
 And that's it. We have added a function to handle ONNX inference without needing to the run the whole program everytime we wanted to test it. This is just one example of how `pickle` can be used to debug Python functions. I am sure there are many other ways to use it. If you know of any other interesting use cases, please let me know in the comments below.
