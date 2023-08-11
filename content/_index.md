@@ -1,7 +1,7 @@
 ---
 title: Hello. I'm Mohammed Yasin.
 subtitle: I develop optimized computer vision programs that are fast, efficient and ready for production.
-seo_title: Mohammed Yasin | Portfolio
+seo_title: Yasin's Keep | Portfolio & Blog
 
 primary_cta_page: "about"
 secondary_cta_page: "projects"
