@@ -1,6 +1,9 @@
 {
     "name": "Yasin's Keep",
     "short_name": "Yasin's Keep",
+    "orientation": "portrait",
+    "scope": ".",
+    "start_url": "/",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
