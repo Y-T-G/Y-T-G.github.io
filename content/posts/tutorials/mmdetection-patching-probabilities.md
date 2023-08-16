@@ -76,7 +76,9 @@ In this case, we're looking to monkey patch the `_predict_by_feat_single()` meth
          mlvl_bbox_preds.append(bbox_pred)
          mlvl_valid_priors.append(priors)
          mlvl_scores.append(scores)
-@@ -121,6 +128,7 @@ def _predict_by_feat_single(self,
++        mlvl_raw_scores.append(raw_scores) # MODIFIED: accumulate raw_scores
+         mlvl_labels.append(labels)
+@@ -122,6 +129,7 @@ def _predict_by_feat_single(self,
      results = InstanceData()
      results.bboxes = bboxes
      results.scores = torch.cat(mlvl_scores)
