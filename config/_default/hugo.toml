@@ -8,7 +8,7 @@ title = '''Yasin's Keep''' # Site title used throughout site
 enableRobotsTXT = true # To overwrite the theme's robots.txt, add your own in the /layouts/ directory
 rssLimit = -1 # -1 is unlimited RSS entries
 googleAnalytics = 'G-YZ311ZFRK4' # Enter GA tracking ID to enable GA4
-disqusShortname = 'yasins' # Enter Disqus shortname to enable comments
+disqusShortname = '' # Enter Disqus shortname to enable comments
 
 ### Content & Publishing
 # Please see https://gohugo.io/getting-started/configuration/ for detailed explanations
@@ -46,6 +46,9 @@ theme = 'hugo-liftoff'
 # [module]
 # [[module.imports]]
 #     path = 'hugo-liftoff'
+
+[params]
+utterances = true # Enable Utterances comments
 
 [taxonomies]
     tag = 'tags'
