@@ -8,7 +8,7 @@ description: Learn more about my background and experience.
 
 ## My Background
 
-I am a Masters student at Universiti Teknologi Malaysia. My Masters research is on improving generalizability of lightweight object detectors so that they perform as well as cumbersome models without sacrificing speed and efficiency.
+I am a Masters student at Universiti Teknologi Malaysia. My Masters research is on improving generalizability of lightweight object detectors so that they perform as well as high-capacity models without sacrificing speed and efficiency.
 
 ## My Experience
 
@@ -31,23 +31,18 @@ An AI startup where I worked on projects from high-profile clients such as PLUS,
 - Performed data curation and labeling for 1000s of images.
 - Trained segmentation and object detection models for realtime defect detection and vehicle classification along with license plate OCR.
  
-
 **Python Development**
 
-- Developed inference pipeline to count no. of objects passing on a conveyor.
+- Developed inference pipeline to count no. of objects.
 - Integrated Kalman filter in centroid tracker to improve object tracking and counting accuracy.
-- Developed inference pipeline to count the no. of items being loaded onto a tractor.
-- Utilized OpenCV to implement a background subtraction logic to dynamically adjust region-of-interest.
-- Modified existing AWS Lambda to send error notifications to Slack.
-
+- Utilized OpenCV to implement intelligent inference ROI adjustment.
 
 **Model Inference Optimization**
 
-- Decreased CPU usage of server-side inference by 40%.
+- Decreased CPU usage of server-side inference by 40%, improving multi-stream inference performance.
 - Fixed a major memory leak bug in the inference pipeline that was causing performance degradation and reduction in accuracy.
-
 
 **Support/Troubleshooting**
 
 - Setup Jetson TX2 servers for inference code deployment.
-- Assisted in Root Cause Analysis of bugs in the inference pipeline.
+- Assisted in Root Cause Analysis of bugs.
