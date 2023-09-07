@@ -8,13 +8,13 @@ description: Learn more about my background and experience.
 
 ## My Background
 
-I am a Masters student at Universiti Teknologi Malaysia. My Masters research is on improving generalizability of lightweight object detectors so that they perform as well as high-capacity models without sacrificing speed and efficiency.
+I am a Masters student at Universiti Teknologi Malaysia. My research is on improving generalizability of lightweight object detectors so that they perform as well as high-capacity models without sacrificing speed and efficiency.
 
 ## My Experience
 
 I have almost an year of experience in building and optimizing computer vision models and applications for production.
 
-### Computer Vision Expert @ Innotec Solutions (July 2023 - Present)
+### Computer Vision Expert @ Innotec Solutions (July 2023 - August 2023)
 
 A CCTV service provider where I primarily offered consultancy services.
 
