@@ -1,6 +1,6 @@
 ---
 title: Hello. I'm Mohammed Yasin.
-subtitle: I develop optimized computer vision programs that are fast, efficient and ready for production.
+subtitle: I engineer computer vision solutions for video analytics at the edge.
 seo_title: Yasin's Keep | Portfolio & Blog
 
 primary_cta_page: "about"
