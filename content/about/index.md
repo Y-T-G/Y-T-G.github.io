@@ -19,30 +19,18 @@ I have almost an year of experience in building and optimizing computer vision m
 A CCTV service provider where I primarily offered consultancy services.
 
 - Trained employee to perform data curation, labeling using CVAT, and model training using AWS EC2 and YOLO.
-- Assisted in developing and improving accuracy of detection models.
-- Provided expert advice on model training and deployment queries.
+- Provided expert advice on model training and deployment queries, enabling them to build in-house video analytics solutions.
 
 ### Computer Vision Intern @ Tapway (Jan 2022 - Sep 2022)
 
 An AI startup where I worked on projects from high-profile clients such as PLUS, RTS, KLK and others which are now deployed to production.
-
-**Model training**
-
-- Performed data curation and labeling for 1000s of images.
-- Trained segmentation and object detection models for realtime defect detection and vehicle classification along with license plate OCR.
  
 **Python Development**
 
-- Developed inference pipeline to count no. of objects.
-- Integrated Kalman filter in centroid tracker to improve object tracking and counting accuracy.
-- Utilized OpenCV to implement intelligent inference ROI adjustment.
+- Developed an efficient inference pipeline to detect and track anomalous objects with ~90% accuracy.
+- Implemented intelligent runtime ROI adjustment to tackle continuous variations in ROI, improving counting accuracy by ~20%.
 
 **Model Inference Optimization**
 
 - Decreased CPU usage of server-side inference by 40%, improving multi-stream inference performance.
-- Fixed a major memory leak bug in the inference pipeline that was causing performance degradation and reduction in accuracy.
-
-**Support/Troubleshooting**
-
-- Setup Jetson TX2 servers for inference code deployment.
-- Assisted in Root Cause Analysis of bugs.
+- Fixed a major memory leak bug in the inference pipeline that was causing 5-10% degradation in performance.
