@@ -14,11 +14,8 @@ I am a Masters student at Universiti Teknologi Malaysia. My research is on impro
 
 I have almost an year of experience in building and optimizing computer vision models and applications for production.
 
-### Computer Vision Expert @ Innotec Solutions (July 2023 - August 2023)
+### Computer Vision Consultant @ Innotec Solutions (July 2023 - August 2023)
 
-A CCTV service provider where I primarily offered consultancy services.
-
-- Trained employee to perform data curation, labeling using CVAT, and model training using AWS EC2 and YOLO.
 - Provided expert advice on model training and deployment queries, enabling them to build in-house video analytics solutions.
 
 ### Computer Vision Intern @ Tapway (Jan 2022 - Sep 2022)
