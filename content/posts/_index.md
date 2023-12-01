@@ -1,5 +1,5 @@
 ---
 title: Posts
-summary: A list of all my posts.
-description: I can't believe you're actually reading this.
+summary: I write my discoveries here.
+description: Things I learnt while trying to learn other things.
 ---
