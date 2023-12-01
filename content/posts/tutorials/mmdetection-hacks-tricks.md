@@ -25,8 +25,8 @@ series:
 
 toc: true
 related: true
-social_share: false
-newsletter: true
+social_share: true
+newsletter: false
 disable_comments: false
 ---
 
