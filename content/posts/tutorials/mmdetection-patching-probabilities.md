@@ -21,6 +21,8 @@ tags:
   - MMDetection
   - Python
   - Object Detection
+series:
+  - MMDetection
 
 toc: true
 related: true
