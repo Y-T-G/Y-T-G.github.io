@@ -70,9 +70,9 @@ You can pass your `runner` to the above function and it would reinitialize the m
 
 ## Filtering the dataset
 
-The `Runner` object also gives you access to loaded dataset. And this allows us to do another nifty hack to filter the dataset. This was useful for me when I wanted to implement active learning to create datasets for each cycle.
+The `Runner` object also gives you access to the loaded dataset. And this object has a nice little hidden property that we can use to filter the dataset. This was useful for me when I wanted to implement active learning to create datasets for each cycle.
 
-The dataset object in `runner.train_dataloader.dataset` has a property called `_indices`.  This property is used to filter the dataset during initialization of the dataset. When the `Runner` object is created, it doesn't initialize the dataset right away. MMEngine implements lazy-loading that delays the initialization of the dataset until the dataset is used, which is when the training begins. So you could use the `_indices` property to pass the indices of the data you want to keep in the final dataset that would be used during training. However, there's one issue. The implementation is currently broken. So we have to again resort to monkey-patching. Specifically, we patch the `full_init()` method using the following redefinition:
+Inside the dataset object at `runner.train_dataloader.dataset` is a property called `_indices`. This property is used to filter the dataset during initialization of the dataset, however there doesn't seem to be any official way to use this. When the `Runner` object is created, it doesn't initialize the dataset right away. MMEngine implements lazy-loading that delays the initialization of the dataset until the dataset is used, i.e. when the training begins. So you could use the `_indices` property to pass the indices of the data you want to keep in the final dataset even after initializing the `Runner` object, which would then be used during training. However, there's one issue. The implementation is currently somewhat broken. So we have to again resort to monkey-patching. Specifically, we patch the `full_init()` method using the following redefinition:
 
 ```python
 def full_init(self) -> None:
