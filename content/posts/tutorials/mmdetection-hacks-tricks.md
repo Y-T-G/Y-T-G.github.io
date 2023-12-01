@@ -119,7 +119,7 @@ def full_init(self) -> None:
     self._fully_initialized = True
 ```
 
-In this implementation, we filter the indices before the `filter_data()` method is called which is used to remove invalid data or images with no annotations. If we don't filter the data before that, our indices that we passed would be pointing to the wrong data and hence mess up the whole thing. You can monkey-patch the method with the above definition through `MethodType`:
+In this implementation, we filter the indices before the `filter_data()` method is called which is used to remove invalid data or images with no annotations. If we don't use the indices to filter the data before that, the indices that we passed would be pointing to the wrong data and hence mess up the whole thing. You can monkey-patch the method with the above definition through `MethodType`:
 
 ```python
 def patch_dataset_init(dataset):
@@ -162,7 +162,7 @@ In the above function, we do a bunch of things. Firstly, we patch the `full_init
 
 ## Reinitializing the visualizer
 
-One thing that you might also want to do when you're doing something like active learning is to start a new visualizer session. Visualizer is what MMEngine uses to log the metrics during training. So if you want each cycle of your active learning to have a new visualizer created, especially if you're using something like Weights & Biases for visualization, you can reset them by first closing the previous session:
+One thing that you might also want to do when you're doing something like active learning is to start a new visualizer session. Visualizer is what MMEngine uses to log the metrics during training. So if you want each cycle of your active learning to use a new and separate visualizer session, especially if you're using something like Weights & Biases for visualization, you can reset them by first closing the previous session and starting a new one:
 
 ```python
 # Close visualization session
@@ -185,12 +185,12 @@ This would create a new session so that your previous training session is separa
 
 ## Useful properties
 
-Besides the above, there are some other useful properties of `runner` object that you can modify:
+Besides the above, there are some other useful properties of `runner` object that you can modify or make use of:
 
-1. **work_dir**: This is the path to the directory where the log folders are created. You can't modify the `runner.work_dir` directly. Instead, you have to modify `runner._work_dir`.
-2. **log_dir**: As the name suggests, this is the subfolder where the training session will store the visualization, the logs and also the checkpoints. Similar to `work_dir`, you have to modify `runner._log_dir` instead of `runner.log_dir`.
+1. **work_dir**: This is the path to the directory where the log folders are created each time the runner is initialized. You can't modify the `runner.work_dir` directly. Instead, you have to modify `runner._work_dir`.
+2. **log_dir**: As the name suggests, this is the subfolder where the training session will store the visualization data, the logs and also the checkpoints. Similar to `work_dir`, you have to modify `runner._log_dir` instead of `runner.log_dir`.
 3. **cfg**: The `config` is stored in the `runner.cfg` property. We have already used this before in our functions above.
-4. **data_list**: In `runner.train_dataloader.dataset.data_list`, you can find the list of all images along with their annotation information as parsed during initialization. This is the list that you would refer to determine the indices of the data you want to keep during the filtering process.
+4. **data_list**: In `runner.train_dataloader.dataset.data_list`, you can find the list of all images along with their annotation information as parsed during initialization. This is the list that you would refer to to determine the indices of the data you want to keep during the filtering process.
 
 ## Extra: `importlib.reload`
 
