@@ -12,7 +12,11 @@ I am a Masters student at Universiti Teknologi Malaysia. My research is on impro
 
 ## My Experience
 
-I have almost an year of experience in building and optimizing computer vision models and applications for production.
+I have over a year of experience in building and optimizing computer vision models and applications for production.
+
+### Algorithm Engineer (Computer Vision) @ Graymatics (September 2023 - Present)
+
+- Implemented batched inference and motion-based frame skipping in DeepStream to reduce inference server’s GPU utilization by 30% and memory usage by 50%, bringing critical FPS improvement for real-time analytics.
 
 ### Computer Vision Consultant @ Innotec Solutions (July 2023 - August 2023)
 
