@@ -12,8 +12,8 @@ lastmod:
 expiryDate: 
 publishDate: 
 
-feature_image: 
-feature_image_alt: 
+feature_image: /posts/tutorials/images/yolov8n-adding-a-head.png
+feature_image_alt: Adding a head to YOLOv8n
 
 categories:
   - Tutorials
