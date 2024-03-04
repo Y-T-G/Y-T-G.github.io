@@ -37,9 +37,9 @@ The difficulty arises from the fact that weights in a deep learning model are no
   
 So there are a couple of options available to someone who wants to add new classes to a model pre-trained on MS COCO:  
 
-1. Download the MS COCO training set containing 118k images and then add your new classes to the dataset. This way the model weights are still optimized to perform well on the existing classes. However, the problem with this approach is unless you have lots of data for the classes that you wish to add, 1000+ images at least, your added class is pretty likely to drown due to being the minority in the dataset.  
+1. Download the MS COCO training set containing 118k images and then add your new classes to the dataset. This way the model weights are still optimized to perform well on the existing classes. However, the problem with this approach is unless you have lots of data for the classes that you wish to add, 1000+ images at least, your added class is pretty likely to drown due to being the minority in the dataset. Not to mention the tediously long training times.
 2. Download a smaller version of the dataset such as [COCO-minitrain](https://github.com/giddyyupp/coco-minitrain) and then do the same as in 1, add your classes and retrain. This is less cumbersome than training on the whole MS-COCO dataset, however, there's no guarantee that your model will continue to perform as well as the original on the COCO classes. After all, the performance of deep learning models depends a lot on the amount of data used to train them.  
-3. Add an extra head just for the new classes and train the new head. This is a lesser-known and more surgical option, but it has the benefit that you can keep the existing weights undisturbed and the performance on the existing classes remains the same, while also avoiding the large data requirement of Option 1.  
+3. Add an extra head just for the new classes and train the new head. This is a lesser-known and more surgical option, but it has the benefit that you can keep the existing weights undisturbed and the performance on the existing classes remains the same, while also avoiding the large data requirement and long training times of Option 1, and the potential performance degradation of Option 2.  
   
 In this guide, we will attempt Option 3 on the YOLOv8n COCO pretrained model. Although this guide is for YOLOv8n, the idea remains the same for all deep learning models with task-specific heads, including image classification and segmentation models.  The notebook with all the code is available [here](https://colab.research.google.com/drive/1SF4lKh8gwWnYwTn2Iobf3--UL7czGepX).
 
@@ -342,7 +342,7 @@ It should say that it didn't find the first 23 layers, but that's okay. We only 
 
 That should be it. The above model will now combine the outputs from both heads in its prediction.
 
-Below are the predictions from the original COCO model, the custom-trained license plate detection model and the merged model. You can see the confidences are exactly the same, as expected, and the class numbering for the second head starts after the first head. Both the heads run independently and reuse the same outputs from the first 22 layers:
+Below are the predictions from the original COCO model, the custom-trained license plate detection model and the merged model respectively. You can see the confidences are exactly the same, as expected, and the class numbering for the second head also correctly starts after the first head. Both the heads run independently and reuse the same outputs from the first 22 layers:
 
 <p align="center">
   <img src="/posts/tutorials/images/yolov8-merged-output.png"
