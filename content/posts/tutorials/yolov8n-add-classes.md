@@ -18,9 +18,9 @@ feature_image_alt:
 categories:
   - Tutorials
 tags:
-series:
   - YOLO
   - Object Detection
+series:
 
 toc: true
 related: true
