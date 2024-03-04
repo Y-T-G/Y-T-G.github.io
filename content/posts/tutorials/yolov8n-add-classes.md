@@ -212,10 +212,10 @@ There are quite a few changes that have been made to get the extra head to work,
 
 ```python
 class ConcatHead(nn.Module):
-    """YOLOv8 Detect head for detection models."""
+    """Concatenaion layer for Detect heads."""
 
     def __init__(self, nc1=80, nc2=1, ch=()):
-        """Initializes the YOLOv8 detection layer with specified number of classes and channels."""
+        """Initializes the ConcatHead."""
         super().__init__()
         self.nc1 = nc1  # number of classes of head 1
         self.nc2 = nc2  # number of classes of head 2
