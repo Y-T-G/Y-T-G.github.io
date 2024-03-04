@@ -63,7 +63,7 @@ mv Project-1/** /content/datasets/Project-1
 mv /content/datasets/Project-1/data.yaml /content/datasets
 ```
 
-Before we start the training, we also have to make some changes to the library. So go ahead clone the ultralytics library and checkout the exact revision used for this tutorial:
+Before we start the training, we also have to make some changes to the library. For this, first clone the ultralytics library and then checkout the exact revision used for this tutorial to avoid any problems:
 
 ```bash
 git clone https://github.com/ultralytics/ultralytics
@@ -72,11 +72,11 @@ cd ultralytics
 # The patch may break for later versions. Change to the one used when writing this.
 git reset --hard 2071776a3672eb835d7c56cfff22114707765ac
 
-# Install this ultralytics repo as an editable Python package installation
+# Install this ultralytics repo as an editable Python package
 pip install -e .
 ```
 
-To save you time, I have also turned the changes we will be making in this tutorial into a [patch](https://gist.github.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e) which you can simply apply through git:
+To save you time, I have also turned the changes we will be making in this tutorial into a [patch](https://gist.github.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e) which you can easily apply through git:
 
 ```bash
 wget https://gist.githubusercontent.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e/raw/6a7d0e8da6b41cbde3eaffec8aa53017046c0da6/add_head.patch
