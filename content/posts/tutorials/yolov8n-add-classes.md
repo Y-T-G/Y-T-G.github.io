@@ -45,7 +45,7 @@ In this guide, we will attempt Option 3 on the YOLOv8n COCO pretrained model. Al
 
 ## Training a custom model
 
-Let's start with the easy part first. Training a custom model with our new classes. In this case, we will be adding the license plate class to the model. We will use [one of the datasets](https://universe.roboflow.com/project-n3wam/project-ttd5y) from Roboflow. This dataset has two classes for license plates. I am not sure what the difference between them is, but that's not crucial here:
+Let's start with the easy part first: training a custom YOLOv8 model with our new classes. For this tutorial, we will be adding the license plate class to the model. We will use [one of the datasets](https://universe.roboflow.com/project-n3wam/project-ttd5y) from Roboflow. This dataset has two classes for license plates. I am not sure what the difference between them is, but that's not crucial here:
 
 ```python
 from roboflow import Roboflow
@@ -63,7 +63,7 @@ mv Project-1/** /content/datasets/Project-1
 mv /content/datasets/Project-1/data.yaml /content/datasets
 ```
 
-Before we start the training, we also have to make some changes to the library. Clone the ultralytics library:
+Before we start the training, we also have to make some changes to the library. So go ahead clone the ultralytics library and checkout the exact revision used for this tutorial:
 
 ```bash
 git clone https://github.com/ultralytics/ultralytics
@@ -71,9 +71,12 @@ cd ultralytics
 
 # The patch may break for later versions. Change to the one used when writing this.
 git reset --hard 2071776a3672eb835d7c56cfff22114707765ac
+
+# Install this ultralytics repo as an editable Python package installation
+pip install -e .
 ```
 
-To save you time, I have turned the changes to a [patch](https://gist.github.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e) which you can directly apply after downloading it:
+To save you time, I have also turned the changes we will be making in this tutorial into a [patch](https://gist.github.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e) which you can simply apply through git:
 
 ```bash
 wget https://gist.githubusercontent.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e/raw/6a7d0e8da6b41cbde3eaffec8aa53017046c0da6/add_head.patch
@@ -117,7 +120,7 @@ old_dict = copy.deepcopy(model.state_dict())
 model.state_dict().keys()
 ```
 
-Although freezing the layers prevents the layer weights from being updated, there's however another thing that gets updated during training: the batch normalization stats. Freezing the layers does not prevent these metrics from getting updated. This is why we need a callback. We will put all the batch norm layers in eval mode and disable tracking of stats through the callback. We do this every epoch because the model is set to train mode after the validation which would revert the change we make:
+Although freezing the layers prevents the layer weights from being updated, there's however another thing that gets updated during training: the batch normalization stats. Freezing the layers does not prevent these metrics from getting updated. This is why we need a callback. We will put all the batch norm layers in eval mode and disable tracking of stats through callbacks. We do this every epoch because the model is set to train mode after the validation step in each epoch which  reverts the change we make:
 
 ```python
 # Add a callback to put the frozen layers in eval mode to prevent BN values
@@ -143,7 +146,7 @@ Now start the training, while specifying the number of layers to be frozen:
 results = model.train(data='/content/datasets/data.yaml', freeze=22, epochs=100, imgsz=640)
 ```
 
-Our final validation metric looks good:
+Our final validation metrics look good:
 
 ```python
                  Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 7/7 [00:05<00:00,  1.34it/s]
@@ -175,7 +178,7 @@ def compare_dicts(state_dict1, state_dict2):
 compare_dicts(old_dict, model.state_dict())
 ```
 
-The output should look like this, which means it worked. Only layer 22 weights are different:
+The output should look like this, which means it worked. Only layer 22 weights and batch statistics are different:
 
 ```
 Weights for parameter 'model.model.22.cv3.1.2.weight' are different.
@@ -197,15 +200,15 @@ for k, v in model.state_dict().items():
   if k.startswith("model.model.22"):
     new_state_dict[k.replace("model.22", "model.23")] = v
 
-# Save the current state_dict
+# Save the current state_dict. Only layer 23.
 torch.save(new_state_dict, "yolov8n_lp.pth")
 ```
 
-That's it for the training. Now we come to the surgical part.
+That's it for the training. Now we come to the more technical part.
 
 ## Modifying YOLOv8 to add an extra head with new classes
 
-There are quite a few changes that have been made to get the extra head to work, which you can read fully in the patch. I will highlight the important one which is the addition of a new head called `ConcatHead`. The definition looks like this:
+There are quite a few changes that have been made to get the extra head to work, which you can read fully in the patch. The changes are only for the detection task, so it would require different changes if you want to do the same for segmentation or other tasks. I will highlight the most important change which is the addition of a new head called `ConcatHead`. The definition looks like this:
 
 ```python
 class ConcatHead(nn.Module):
@@ -268,9 +271,9 @@ class ConcatHead(nn.Module):
 
 ```
 
-The goal of this head is to take in the output from both the heads, the original COCO head and the new head and then merge it such that they behave like one single head for downstream postprocessing. The comments provide information as to what each code is for. We first merge the bounding box proposals from the two heads by concatenating the first 4 rows of outputs that contain these proposals. We concatenate them in the third dimension, essentially doubling the number of outputs that it produces. The first 6300 outputs are the ones from the first head and the second 6300 are from the second head, together producing an output of size 12600.
+The goal of this head is to take in the output from both the heads, the original COCO head and the new head and then merge it such that they behave like one single head for downstream postprocessing. The comments provide information as to what each block of code is for. We first merge the bounding box proposals from the two heads by concatenating the first 4 rows of outputs that contain these proposals. We concatenate them in the third dimension, essentially doubling the number of outputs that it produces. The first 6300 outputs are the ones from the first head and the second 6300 are from the second head, together producing an output of size 12600.
 
-For the classification outputs, we do a similar thing. Since we have to make the outputs for those 12600 too, we add zeros to extend the classification outputs from both heads. For the first head, the zeros are *appended*, i.e., added after the original outputs to correspond with the way we merged the bounding box proposals (first head first). For the second head, the zeros are *prepended*, again to correspond with the way we merged the bounding box proposals (second head after the first head).
+For the classification outputs, we do a similar thing. Since we have to make the outputs for those 12600 too, we add zeros to extend the classification outputs from both heads to match that size. For the first head, the zeros are *appended*, i.e., added after the original outputs to correspond with the way we merged the bounding box proposals (first head first). For the second head, the zeros are *prepended*, again to correspond with the way we merged the bounding box proposals (second head after the first head).
 
 And that's all we need to do to produce the merged output. We also return the features from the first head as is, which is used for feature visualization. It's not relevant to the predictions, so not merging them doesn't make a big difference except for breaking the feature heatmap visualization which we aren't using.
 
@@ -319,7 +322,7 @@ head:
   - [[22, 23], 1, ConcatHead, [80, 2]] # Concat #22 and #23
 ```
 
-We change the `nc` to reflect the total number of classes, in our case 80 COCO + 2 additional = 82. Then we change layer 22 and indicate that it produces 80 outputs. This will be the original head. Then we add a new layer, layer 23 (yes, that's why we incremented the layer number before) for the extra head. Then we end it with our custom `ConcatHead` layer that would concatenate the outputs from layer 22 and layer 23.
+We change the `nc` to reflect the total number of classes, in our case 80 COCO + 2 additional = 82. Besides that the changes are only in the last 3 layers. We change layer 22 and indicate that it produces 80 outputs. This will be the original head. Then we add a new layer, layer 23 (yes, that's why we incremented the layer number before) for the extra head. Then we end it with our custom `ConcatHead` layer that would concatenate the outputs from layer 22 and layer 23.
 
 Now we create a model using this new architecture and then load the COCO weights to it:
 
@@ -333,7 +336,7 @@ The output says:
 Transferred 355/440 items from pretrained weights
 ```
 
-It would correctly transfer all the COCO weights because the first 23 layers (including the COCO head) are identical to the original model. But since it doesn't have any weights for the 24th layer (the 24th layer is layer 23; the index starts from 0), nothing is transferred for that layer and it remains randomly initialized. So we will manually load the weights for layer 23, i.e., the additional head from the state dict we saved:
+It correctly transfers all the COCO weights because the first 23 layers (including the COCO head) are identical to the original model. But since it doesn't have any weights for the 24th layer (the 24th layer is layer 23; the index starts from 0), nothing is transferred for that layer and it remains randomly initialized. So we will manually load the weights for layer 23, i.e., the additional head from the state dict we saved:
 
 ```python
 state_dict = torch.load("yolov8n_lp.pth")
@@ -342,9 +345,11 @@ state_dict = torch.load("yolov8n_lp.pth")
 model_2.load_state_dict(state_dict, strict=False)
 ```
 
-It should say that it didn't find the first 23 layers, but that's okay. We only want to transfer the weights for layer 23. And that's it. The above model will now combine the outputs from both heads in its prediction.
+It should say that it didn't find the first 23 layers, but that's okay. We only want to transfer the weights for layer 23.
 
-Here are the predictions from the original COCO model, the custom-trained license plate detection model and the merged model. You can see the confidences are exactly the same as expected and the class numbering for the second head starts after the first head. Both the heads run independently and reuse the same outputs from the first 22 layers:
+That should be it. The above model will now combine the outputs from both heads in its prediction.
+
+Below are the predictions from the original COCO model, the custom-trained license plate detection model and the merged model. You can see the confidences are exactly the same, as expected, and the class numbering for the second head starts after the first head. Both the heads run independently and reuse the same outputs from the first 22 layers:
 
 <p align="center">
   <img src="/posts/tutorials/images/yolov8-merged-output.png"
@@ -353,6 +358,6 @@ Here are the predictions from the original COCO model, the custom-trained licens
 
 ## Caveats and conclusion
 
-The approach used here tries to get the best of both worlds without long training times and significant performance hits. There is of course a caveat here. Since the heads rely on the frozen features from the previous layers, if those layers do not contain the relevant features, the head will not perform well. This would probably happen if you train the model on a dataset that looks very different from COCO such as an aerial view dataset. And since the backbone is not finetuned, it is also possible the additional classes don't reach the same performance they would have reached if trained from scratch and all the layers unfrozen. One thing that could be tried to possibly improve the performance is to unfreeze one or more of the last layers during the training so that they can get finetuned to the task. Of course, this also means you will have to duplicate these layers as a separate branch, just as we duplicated the head, and load the COCO weights correctly in the COCO branch and the custom-trained weights in the additional branch, but it shouldn't be difficult following the formula outlined in this guide. Moreover, there is no need to concatenate the outputs from these additional layers, as they would just be passed down to individual heads, so you don't have to worry about a complicated concatenation procedure.
+The approach used here tries to get the best of both worlds when it comes to adding new classes to the COCO pretrained models without long training times and significant performance hits. There is of course a caveat here. Since the heads rely on the frozen features from the previous layers, if those layers do not contain the relevant features, the head will not perform well. This would probably happen if you train the model on a dataset that looks very different from COCO such as an aerial view dataset. And since the backbone is not finetuned, it is also possible the additional classes don't reach the same performance they would have reached if trained from scratch and with all the layers unfrozen. One thing that could be tried to possibly improve the performance is to unfreeze one or more of the last layers during the training so that they can get finetuned to the task. Of course, this also means you will have to duplicate these layers as a separate branch, just as we duplicated the head, and load the COCO weights correctly in the COCO branch and the custom-trained weights in the additional branch, but it shouldn't be difficult following the formula outlined in this guide. Moreover, there is no need to concatenate the outputs from these additional layers, as they would just be passed down to individual heads, so you don't have to worry about a complicated concatenation procedure.
 
 And that's all. Thanks for reading.
