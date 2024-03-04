@@ -174,7 +174,7 @@ def compare_dicts(state_dict1, state_dict2):
             if "bn" in key and "22" not in key:
               state_dict1[key] = state_dict2[key]
 
-# Compare the dicts. Changes should only be in layer 21 and above
+# Compare the dicts. Changes should only be in layer 22 and above
 compare_dicts(old_dict, model.state_dict())
 ```
 
