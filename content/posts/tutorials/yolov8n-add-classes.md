@@ -267,7 +267,7 @@ class ConcatHead(nn.Module):
         preds = torch.cat((preds, preds2_extended[:, 4:, :]), dim=1)
 
         if isinstance(x[0], tuple):
-          return (preds, x[0])
+          return (preds, x[0][1])
         else:
           return preds
 
