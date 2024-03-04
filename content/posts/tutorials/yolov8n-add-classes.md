@@ -223,16 +223,18 @@ class ConcatHead(nn.Module):
     def forward(self, x):
         """Concatenates and returns predicted bounding boxes and class probabilities."""
 
-        # x is a list of lenghth 2
-        # Each element is a tuple
-        # First element of tuple are raw features, second element are detections
+        # x is a list of length 2
+        # Each element is either a tuple or just the decoded features
+        # depending whether it's being exported.
+        # First element of tuple are the decoded preds,
+        # second element are feature maps for heatmap visualization
 
         if isinstance(x[0], tuple):
           preds1 = x[0][0]
           preds2 = x[1][0]
         elif isinstance(x[0], list): # when returned raw outputs
           # The shape is used for stride creation in tasks.py.
-          # Feature maps will have to decoded individually if used as they can't be merged.
+          # Feature maps will have to be decoded individually if used as they can't be merged.
           return [torch.cat((x0, x1), dim=1) for x0, x1 in zip(x[0], x[1])]
         else:
           preds1 = x[0]
@@ -294,18 +296,9 @@ nc: 82
 
 # YOLOv8.0n head
 head:
-  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]
-  - [[-1, 6], 1, Concat, [1]] # cat backbone P4
-  - [-1, 3, C2f, [512]] # 12
-
-  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]
-  - [[-1, 4], 1, Concat, [1]] # cat backbone P3
-  - [-1, 3, C2f, [256]] # 15 (P3/8-small)
-
-  - [-1, 1, Conv, [256, 3, 2]]
-  - [[-1, 12], 1, Concat, [1]] # cat head P4
-  - [-1, 3, C2f, [512]] # 18 (P4/16-medium)
-
+  ...
+  ...
+  ...
   - [-1, 1, Conv, [512, 3, 2]]
   - [[-1, 9], 1, Concat, [1]] # cat head P5
   - [-1, 3, C2f, [1024]] # 21 (P5/32-large)
