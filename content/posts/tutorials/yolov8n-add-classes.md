@@ -208,7 +208,7 @@ That's it for the training. Now we come to the more technical part.
 
 ## Modifying YOLOv8 to add an extra head with new classes
 
-There are quite a few changes that have been made to get the extra head to work, which you can read fully in the patch. The changes are only for the detection task, so it would require different changes if you want to do the same for segmentation or other tasks. I will highlight the most important change which is the addition of a new head called `ConcatHead`. The definition looks like this:
+There are quite a few changes that have been made to get the extra head to work, which you can read fully in the patch. The changes are only for the detection task, so it would require different changes if you want to do the same for segmentation or other tasks. I will highlight the most important change which is the addition of a new layer called `ConcatHead`. The definition looks like this:
 
 ```python
 class ConcatHead(nn.Module):
