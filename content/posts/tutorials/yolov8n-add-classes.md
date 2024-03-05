@@ -102,7 +102,7 @@ index 3382117..da6b9c1 100644
              pbar = enumerate(self.train_loader)
 ```
 
-Yes, we will be writing a callback. We want to use the head of this custom-trained model alongside the old head from the COCO pre-trained model. To use both of the heads, we need to ensure they operate on the same input, i.e. the layers before the head should produce the same output. YOLOv8 supports freezing the layers during training, and in this case, we will be freezing the first 22 layers because those are the number of layers before the head. You can find this by printing the keys and checking the number of the last layer.:
+Yes, we will be writing a callback. We want to use the head of this custom-trained model alongside the old head from the COCO pre-trained model. To use both of the heads, we need to ensure they operate on the same input, i.e. the layers before the head should produce the same output. YOLOv8 supports freezing the layers during training, and in this case, we will be freezing the first 22 layers because those are the number of layers before the head. You can find this by printing the keys and checking the number of the last layer:
 
 ```python
 from ultralytics import YOLO
