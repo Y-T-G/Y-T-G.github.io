@@ -261,7 +261,7 @@ class ConcatHead(nn.Module):
         preds2_extended = torch.zeros(shape)
         preds2_extended[..., preds2.shape[-1]:] = preds2
 
-        # Arrange the clasds probabilities it in order preds1, then preds2. The
+        # Arrange the class probabilities in order preds1, preds2. The
         # class indices of preds2 will therefore start after preds1
         preds = torch.cat((preds, preds1_extended[:, 4:, :]), dim=1)
         preds = torch.cat((preds, preds2_extended[:, 4:, :]), dim=1)
@@ -275,7 +275,7 @@ class ConcatHead(nn.Module):
 
 The goal of this layer is to take in the output from both the heads, the original COCO head and the new head and then merge it such that they behave like one single head for downstream postprocessing. The comments provide information as to what each block of code is for. We first merge the bounding box proposals from the two heads by concatenating the first 4 rows of outputs that contain these proposals. We concatenate them in the third dimension, essentially doubling the number of outputs that it produces. The first 6300 outputs are the ones from the first head and the second 6300 are from the second head, together producing an output of size 12600.
 
-For the classification outputs, we do a similar thing. Since we have to make the outputs for those 12600 too, we add zeros to extend the classification outputs from both heads to match that size. For the first head, the zeros are *appended*, i.e., added after the original outputs to correspond with the way we merged the bounding box proposals (first head first). For the second head, the zeros are *prepended*, again to correspond with the way we merged the bounding box proposals (second head after the first head).
+For the classification outputs, we do a similar thing. Since we have to make the outputs for those 12600 too, we add zeros to extend the classification outputs from both heads to match that size. For the first head, the zeros are *appended*, i.e., added after the original outputs to correspond with the way we merged the bounding box proposals (first head first). For the second head, the zeros are *prepended*, again to correspond with the way we merged the bounding box proposals (second head after the first head). Then we just concatenate the preds in order. The first 4 rows from both heads have already been added during the bounding proposal concatenation. To this, we concatenate the remaining rows of the output from the first head. And then the remaining rows of the output from second head are concatenated. Remember, we are skipping the first 4 since they were already taken care of during the bounding box proposal concatenation like I mentioned. The final output is of shape [N, 86, 12600] in our case where 86 comes from the 4 coordinates, 80 COCO classes and 2 license plate classes.
 
 And that's all we need to do to produce the merged output. We also return the features from the first head as is, which is used for feature visualization. It's not relevant to the predictions, so not merging them doesn't make a big difference except for breaking the feature heatmap visualization which we aren't using.
 
