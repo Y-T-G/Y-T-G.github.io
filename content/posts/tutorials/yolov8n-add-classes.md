@@ -12,7 +12,7 @@ lastmod:
 expiryDate: 
 publishDate: 
 
-feature_image: /posts/tutorials/images/yolov8n-adding-a-head.png
+feature_image: /content/posts/tutorials/images/yolov8n-adding-a-head.png
 feature_image_alt: Adding a head to YOLOv8n
 
 categories:
