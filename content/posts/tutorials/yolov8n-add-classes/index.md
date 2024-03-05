@@ -1,6 +1,6 @@
 ---
 title: Extending YOLOv8 COCO Model With New Classes Without Affecting Old Weights
-seo_title: Extending YOLOv8 COCO Model With New Classes Without Affecting Old Weights
+seo_title: Extending YOLOv8 Model With New Classes Without Affecting Old Weights
 summary: Add additional classes to pre-trained YOLOv8 model without affecting the confidences on the existing classes.
 description: Add additional classes to pre-trained YOLOv8 model without affecting the confidences on the existing classes.
 slug: yolov8n-add-classes
