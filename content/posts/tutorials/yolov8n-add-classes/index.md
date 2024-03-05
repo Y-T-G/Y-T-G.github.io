@@ -345,7 +345,7 @@ That should be it. The above model will now combine the outputs from both heads 
 Below are the predictions from the original COCO model, the custom-trained license plate detection model and the merged model respectively. You can see the confidences are exactly the same, as expected, and the class numbering for the second head also correctly starts after the first head. Both the heads run independently and reuse the same outputs from the first 22 layers:
 
 <p align="center">
-  <img src="/posts/tutorials/yolov8n-add-classes/yolov8-merged-output.png"
+  <img src="/tutorials/yolov8n-add-classes/yolov8-merged-output.png"
   alt="comparison of the outputs from the three models"/>
 </p>
 
