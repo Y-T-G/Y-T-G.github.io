@@ -97,7 +97,7 @@ utterances = true # Enable Utterances comments
     lineNumbersInTable = false # Not the default
     noClasses = true
     noHl = false
-    style = 'monokai'
+    style = 'catppuccin-macchiato'
     tabWidth = 4
   [markup.tableOfContents]
     endLevel = 3
