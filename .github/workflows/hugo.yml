@@ -38,7 +38,7 @@ jobs:
           echo "::set-env name=HUGO_VERSION::$(curl -s https://api.github.com/repos/gohugoio/hugo/releases/latest | grep -o '"tag_name": "[^"]*"' | cut -d'"' -f4)"
       - name: Install Hugo CLI
         run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${{ env.HUGO_VERSION }}/hugo_extended_${{ env.HUGO_VERSION }}_Linux-64bit.deb \
+          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${{ env.HUGO_VERSION }}/hugo_extended_${{ env.HUGO_VERSION }}_linux-amd64.deb \
           && sudo dpkg -i ${{ runner.temp }}/hugo.deb       
       - name: Install Dart Sass
         run: sudo snap install dart-sass
