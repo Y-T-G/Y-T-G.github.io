@@ -79,7 +79,7 @@ pip install -e .
 To save you time, I have also turned the changes we will be making in this tutorial into a [patch](https://gist.github.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e) which you can easily apply through git:
 
 ```bash
-wget https://gist.githubusercontent.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e/raw/6a7d0e8da6b41cbde3eaffec8aa53017046c0da6/add_head.patch
+wget https://gist.githubusercontent.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e/raw/79eb85b3ee1c164d4905dd3adeca84f4dd4f34ae/add_head.patch
 git apply add_head.patch
 ```
 
