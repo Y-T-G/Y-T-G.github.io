@@ -97,7 +97,13 @@
           {{ template "_internal/disqus.html" . }}
         </div>
       {{ else if and (.Site.Params.utterances) (not .Site.IsServer) (ne .Params.disable_comments true) }}
+        <div class="section">
           {{ partial "posts/utterances.html" . }}
+        </div>
+      {{ else if and (.Site.Params.giscus) (not .Site.IsServer) (ne .Params.disable_comments true) }}
+        <div class="section">
+          {{ partial "posts/giscus.html" . }}
+        </div>
       {{ end }}
     </aside>
   </div>
