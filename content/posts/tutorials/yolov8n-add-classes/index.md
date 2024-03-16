@@ -79,7 +79,7 @@ pip install -e .
 To save you time, I have also turned the changes we will be making in this tutorial into a [patch](https://gist.github.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e) which you can easily apply through git:
 
 ```bash
-wget https://gist.githubusercontent.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e/raw/79eb85b3ee1c164d4905dd3adeca84f4dd4f34ae/add_head.patch
+wget https://gist.githubusercontent.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e/raw/17b1407fefeac86d089c4cf14f174c8bb44948af/add_head.patch
 git apply add_head.patch
 ```
 
@@ -251,15 +251,17 @@ class ConcatHead(nn.Module):
         shape = list(preds1.shape)
         shape[-1] *= 2
 
-        preds1_extended = torch.zeros(shape)
-        preds1_extended[..., :preds1.shape[-1]] = preds1
+        preds1_extended = torch.zeros(shape, device=preds1.device,
+                                      dtype=preds1.dtype)
+        preds1_extended[..., : preds1.shape[-1]] = preds1
 
         # Prepend preds 2 with empty outputs of size 6300
         shape = list(preds2.shape)
         shape[-1] *= 2
 
-        preds2_extended = torch.zeros(shape)
-        preds2_extended[..., preds2.shape[-1]:] = preds2
+        preds2_extended = torch.zeros(shape, device=preds2.device,
+                                      dtype=preds2.dtype)
+        preds2_extended[..., preds2.shape[-1] :] = preds2
 
         # Arrange the class probabilities in order preds1, preds2. The
         # class indices of preds2 will therefore start after preds1
