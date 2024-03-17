@@ -82,17 +82,21 @@ Besides the COCOAPI, you also need to download the `instances_train2017.json` CO
     # instantiate COCO specifying the annotations json path
     coco = COCO("instances_train2017.json")
 
-    # Specify a list of classes to exclude.
+    # Get list of images to exclude based on DETECTOR_CLASSES
     # Background images will not contain these.
     # These should be classes included in training.
     exc_cat_ids = coco.getCatIds(catNms=DETECTOR_CLASSES)
 
-    # Get the corresponding image ids and images using loadImgs
-    exc_img_ids = coco.getImgIds(catIds=exc_cat_ids)
+    # Get the corresponding image ids to exclude
+    exc_img_ids = []
+    for cat_id in exc_cat_ids:
+        exc_img_ids += coco.getImgIds(catIds=cat_id)
+
+    # Remove duplicates
+    exc_img_ids = set(exc_img_ids)
 
     # Get all image ids
-    all_cat_ids = coco.getCatIds(catNms=[""])
-    all_img_ids = coco.getImgIds(catIds=all_cat_ids)
+    all_img_ids = coco.getImgIds()
 
     # Remove img ids of classes that are included in training
     bg_img_ids = set(all_img_ids) - set(exc_img_ids)
