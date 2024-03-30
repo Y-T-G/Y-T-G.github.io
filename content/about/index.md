@@ -8,15 +8,15 @@ description: Learn more about my background and experience.
 
 ## My Background
 
-I am a Masters student at Universiti Teknologi Malaysia. My research is on improving generalizability of lightweight object detectors so that they perform as well as high-capacity models without sacrificing speed and efficiency.
+I am a Masters student at Universiti Teknologi Malaysia, researching active learning for object detectors.
 
 ## My Experience
 
-I have over a year of experience in building and optimizing computer vision models and applications for production.
+I have over a year of experience in building and optimizing computer vision models and pipelines for production.
 
 ### Algorithm Engineer (Computer Vision) @ Graymatics (Sep 2023 - Present)
 
-- Implemented batched inference and motion-based frame skipping in DeepStream to reduce inference server’s GPU utilization by 30% and memory usage by 50%, bringing critical FPS improvement for real-time analytics.
+- Implemented batched inference and dynamic frame skipping in DeepStream to optimize inference server’s GPU utilization and memory usage, improving FPS for real-time analytics involving 140+ cameras.
 
 ### Computer Vision Consultant @ Innotec Solutions (Jul 2023 - Aug 2023)
 
@@ -29,9 +29,9 @@ An AI startup where I worked on projects from high-profile clients such as PLUS,
 **Python Development**
 
 - Developed an efficient inference pipeline to detect and track anomalous objects with ~90% accuracy.
-- Implemented intelligent runtime ROI adjustment to tackle continuous variations in ROI, improving counting accuracy by ~20%.
+- Implemented intelligent runtime ROI adjustment to tackle continuous variations in ROI, improving counting accuracy.
 
 **Model Inference Optimization**
 
-- Decreased CPU usage of server-side inference by 40%, improving multi-stream inference performance.
-- Fixed a major memory leak bug in the inference pipeline that was causing 5-10% degradation in performance.
+- Reduced resource starvation and latency spikes in multi-stream inference by optimizing the number of threads spawned by each process.
+- Fixed a major memory leak in the inference pipeline that  was causing noticeable degradation in performance.
