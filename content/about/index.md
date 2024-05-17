@@ -12,7 +12,7 @@ I am a Masters student at Universiti Teknologi Malaysia, researching active lear
 
 ## My Experience
 
-I have over a year of experience in building and optimizing computer vision models and pipelines for production.
+I have been in the video analytics industry for over an year, building and optimizing computer vision models and pipelines for production.
 
 ### Algorithm Engineer (Computer Vision) @ Graymatics (Sep 2023 - Present)
 
