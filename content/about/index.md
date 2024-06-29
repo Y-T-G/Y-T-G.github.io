@@ -17,7 +17,7 @@ I have been in the video analytics industry for over a year, building and optimi
 ### Algorithm Engineer (Computer Vision) @ Graymatics (Sep 2023 - Present)
 
 - Implemented batched inference and dynamic frame skipping in DeepStream to optimize inference server’s GPU utilization and memory usage, improving FPS for real-time analytics involving 140+ cameras.
-- Created a lightweight skeleton-based action recognition architecture, lowering false positives by upto 500%.
+- Created a lightweight skeleton-based action recognition architecture, lowering false positives by up to 500%.
 - Developed an efficient inference pipeline for crowd analytics, enabling edge inference on NVIDIA Jetson.
 
 ### Computer Vision Consultant @ Innotec Solutions (Jul 2023 - Aug 2023)
