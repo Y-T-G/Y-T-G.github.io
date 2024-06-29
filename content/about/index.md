@@ -12,11 +12,13 @@ I am a Masters student at Universiti Teknologi Malaysia, researching active lear
 
 ## My Experience
 
-I have been in the video analytics industry for over an year, building and optimizing computer vision models and pipelines for production.
+I have been in the video analytics industry for over a year, building and optimizing computer vision models and pipelines for production.
 
 ### Algorithm Engineer (Computer Vision) @ Graymatics (Sep 2023 - Present)
 
 - Implemented batched inference and dynamic frame skipping in DeepStream to optimize inference server’s GPU utilization and memory usage, improving FPS for real-time analytics involving 140+ cameras.
+- Created a lightweight skeleton-based action recognition architecture, lowering false positives by upto 500%.
+- Developed an efficient inference pipeline for crowd analytics, enabling edge inference on NVIDIA Jetson.
 
 ### Computer Vision Consultant @ Innotec Solutions (Jul 2023 - Aug 2023)
 
@@ -34,4 +36,4 @@ An AI startup where I worked on projects from high-profile clients such as PLUS,
 **Model Inference Optimization**
 
 - Reduced resource starvation and latency spikes in multi-stream inference by optimizing the number of threads spawned by each process.
-- Fixed a major memory leak in the inference pipeline that  was causing noticeable degradation in performance.
+- Fixed a major memory leak in the inference pipeline that was causing noticeable degradation in performance.
