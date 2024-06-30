@@ -140,6 +140,6 @@ You see that all the metrics are pretty much the same, in fact, it's a bit highe
 
 ## Conclusion
 
-The training here was only run for 10 epochs, but you should be able to observe the differences becoming significant as you train for longer. It may be helpful even if you aren't particularly targeting small objects as the pose head provides an auxiliary task during training and auxiliary tasks have been shown to help the model learn better.
+The training here was only run for 10 epochs, but you should be able to observe the differences becoming significant as you train for longer. It may be helpful even if you aren't particularly targeting small objects as the pose head provides an auxiliary task during training and auxiliary tasks have been shown to help the model learn better. You can turn segmentation models into detect by using the same approach as in the last section which is another auxiliary task you can try to improve your model's detection performance.
 
 Thanks for reading.
