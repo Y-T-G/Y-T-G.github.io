@@ -125,7 +125,7 @@ If you look at the results shown in the previous section, you will notice that t
 First, we edit the yaml to match the number of classes in the pose model so that the last layer weights don't have an issue loading:
 ```bash
 # Change nc to correct number of classes
-sed -i "s/nc: 80/nc: 48/g" ultralytics/cfg/models/v8/yolov8.yaml
+sed -i "s/nc:.*$/nc: 48/g" ultralytics/cfg/models/v8/yolov8.yaml
 ```
 
 Then we just need these few lines to turn the pose model into a detection only variant:
