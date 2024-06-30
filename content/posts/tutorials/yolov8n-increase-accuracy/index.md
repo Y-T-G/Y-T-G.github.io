@@ -120,7 +120,7 @@ Despite reducing the box and dfl loss weights, we get over a 12% increase in the
 
 If you look at the results shown in the previous section, you will notice that the pose model shows 8.4 GFLOPs while the detect model had shown 8.1 GLOPs. These extra FLOPs come from the pose head. But, don't worry. We can get it back down to 8.1 GFLOPs. Remember that I mentioned YOLOv8 pose models are just detection models with a pose head attached? Well, this also means that we can turn our pose model back to a detect model without losing any accuracy at all while removing the extra overhead introduced by the pose head.
 
-First, we edit the yaml to match the number of classes in the pose model so that the last layer can match.:
+First, we edit the yaml to match the number of classes in the pose model so that the last layer can match:
 ```bash
 # Change nc to correct number of classes
 sed -i "s/nc: 80/nc: 48/g" ultralytics/cfg/models/v8/yolov8.yaml
