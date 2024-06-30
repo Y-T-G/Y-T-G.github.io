@@ -139,7 +139,6 @@ Here, we load the weights of the pose model to a detect model, and they match up
 To verify that no performance was lost, we can just run validation again. And it gives the following output:
 ```bash
 YOLOv8n summary (fused): 168 layers, 3015008 parameters, 21840 gradients, 8.1 GFLOPs
-val: Scanning /content/Traffic-Signs-8/valid/labels.cache... 2017 images, 0 backgrounds, 0 corrupt: 100%|██████████| 2017/2017 [00:00<?, ?it/s]
                  Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 127/127 [00:31<00:00,  4.08it/s]
                    all       2017       4906      0.586      0.474      0.507       0.32
 ```
