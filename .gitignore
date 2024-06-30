@@ -21,3 +21,4 @@ hugo.linux
 
 ### Draft
 /contents/posts/drafts
+*.excalidraw
