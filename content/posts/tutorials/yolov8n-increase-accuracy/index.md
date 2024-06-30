@@ -140,6 +140,6 @@ You see that all the metrics are pretty much the same, in fact, it's a bit highe
 
 ## Conclusion
 
-The training here was only run for 10 epochs, but you will be able to observe the differences becoming significant as you train for longer. I have consistently seen over 10% improvements with this approach on small object detection. It may be helpful even if you aren't particularly targetting small objects as the pose head provides an auxiliary task during training and auxiliary tasks have been shown to help the model learn better.
+The training here was only run for 10 epochs, but you should be able to observe the differences becoming significant as you train for longer. It may be helpful even if you aren't particularly targeting small objects as the pose head provides an auxiliary task during training and auxiliary tasks have been shown to help the model learn better.
 
 Thanks for reading.
