@@ -30,16 +30,18 @@ disable_comments: false
 ---
 
 ## Introduction
-Small object detection is usually a challenging task since the size of the objects makes it difficult for the features to be adequately represented in the backbone. There have been numerous improvements in object detection architectures over the years to increase small object detection accuracy. Such as the addition of feature pyramid layers that produce feature maps at multiple scales to ensure the extracted features have both coarse and fine features. YOLOv8 provides two models that make use of extra scales to help with small and large object detection, namely the p2 and p6 models respectively. However, the p2 model comes with an additional cost due to the extra feature level that gets added. For example, the original YOLOv8n model consumes 8.9 GFLOPs while the YOLOv8n-p2 model almost doubles that to 17.4 GFLOPs:
+Small object detection is usually a challenging task since the size of the objects makes it difficult for the features to be adequately represented in the backbone. There have been numerous improvements in object detection architectures over the years to increase small object detection accuracy. Such as the addition of feature pyramid layers that produce feature maps at multiple scales to ensure the extracted features have both coarse and fine features. YOLOv8 provides two additional variants that make use of extra scales to help with small and large object detection, namely the p2 and p6 models respectively. However, the p2 model comes with an additional cost due to the extra feature scale that gets added. For example, the original YOLOv8n model consumes 8.9 GFLOPs while the YOLOv8n-p2 model almost doubles that to 17.4 GFLOPs:
 ```bash
 YOLOv8n-p2 summary: 277 layers, 3354144 parameters, 3354128 gradients, 17.4 GFLOPs
 (277, 3354144, 3354128, 17.4345728)
 ```
 
-Besides the difficulty in representing the features of small objects, there's another reason why you observe low mAP when you train a model to detect small objects, which is the use of IoU loss. For small objects, IoU is not a good metric to measure performance because small discrepancies in the predictions can often lead to large variations in loss, making the training less stable. To understand this problem better, I would suggest reading [this article](https://deci.ai/blog/small-object-detection-challenges-and-solutions/) by Deci AI. It also discusses the issue of using mAP50-95 for small object detection, which is a consequence of the IoU problem. A better target while training an object detector to detect small objects is the distance between the centers of the predicted and ground-truth boxes. This makes the loss less sensitive to the box not accurately "hugging" the object, which to be frank, is not a big deal for small objects as the difference is visually negligible. There is a simple trick that can be utilized to do this with YOLOv8, which I will explain in the next few sections. As usual, I have a [Colab notebook](https://colab.research.google.com/drive/1TMiwfu1WPzCPxlW8c4ontN9iyzzTHUH3?usp=sharing) with the whole code.
+Besides the difficulty in representing the features of small objects, there's another reason why you might observe low mAP in small object detection, which is the use of IoU-based loss. For small objects, IoU is not a good metric to measure performance because small discrepancies in the predictions can often lead to large variations in loss, making the training less stable. You can read [this article](https://deci.ai/blog/small-object-detection-challenges-and-solutions/) by Deci AI for a more detailed explanation on why that's the case. It also discusses why mAP50-95 isn't appropriate for measuring the performance of a detector on small objects.
+
+A better target while training an object detector to detect small objects is the distance between the centers of the predicted and ground-truth boxes. This makes the loss less sensitive to the predicted box not accurately "hugging" the object, which is not a big deal for small objects as the difference is visually negligible. There is a simple trick that can be used to do this with YOLOv8, which I will explain in the next few sections. The whole code can be found in this [Colab notebook](https://colab.research.google.com/drive/1TMiwfu1WPzCPxlW8c4ontN9iyzzTHUH3?usp=sharing).
 
 ## An Example: TT100K Dataset
-TT100K dataset is a large-scale dataset for traffic sign detection and classification made available by the Tencent Lab at Tsinghua University. Since it involves detecting traffic signs, it naturally consists of a lot of small objects. This makes it the perfect dataset for testing our theory. I won't be using the whole dataset here since I am GPU-poor (GPU-less, to be precise), and instead, I will be using the one from [Roboflow](https://universe.roboflow.com/traffic-7yixa/traffic-signs-gagqf) that has about 20k images. We will first train a normal YOLOv8n model to test our mileage, although I only ran it for just 10 epochs because Colab's generosity ends too quickly for me to do anything more:
+TT100K dataset is a large-scale dataset for traffic sign detection and classification made available by the Tencent Lab at Tsinghua University. Since it involves detecting traffic signs, it naturally consists of a lot of small objects. This makes it suitable for testing our theory. I won't be using the whole dataset here (since I don't have a GPU to run it for that long), and instead, I will be using the one from [Roboflow](https://universe.roboflow.com/traffic-7yixa/traffic-signs-gagqf) that has about 20k images. We will first train a normal YOLOv8n model to test our mileage. I only ran it for just 10 epochs because Colab's generosity ends too quickly for me to do anything more:
 ```python
 results = model.train(data="/content/Traffic-Signs-8/data.yaml", batch=-1, epochs=10,
                       warmup_epochs=1, close_mosaic=1, hsv_h=0, hsv_v=0, hsv_s=0,
@@ -52,7 +54,7 @@ Model summary (fused): 168 layers, 3015008 parameters, 0 gradients, 8.1 GFLOPs
                    all       2017       4906      0.467      0.461      0.448      0.326
 ```
 
-We reached an mAP50 of 44.8, not bad considering it's the nano version and was only trained for 10 epochs. Let's see how much better we can do with our trick.
+We reached an mAP50 of 44.8, which is not bad considering it's the nano version and was only trained for 10 epochs. But let's see how much better we can do with our trick.
 
 ## Keypoints To The Rescue
 You may be familiar with the pose family of YOLOv8 models that can be used to perform keypoint estimation. The YOLOv8 pose models under the hood are just the detection models but with an additional pose head added to make keypoint prediction possible. This information will come in handy later, but right now, we want to exploit the keypoints to do what was mentioned in the introduction, i.e. train the model using the distance to the center as a target as opposed to IoU. To do this, we first convert our box labels to keypoint labels with this simple script:
@@ -94,7 +96,7 @@ for label in labels:
             f.writelines(f"{cls_id} {box[0]} {box[1]} {box[2]} {box[3]} {point[0]} {point[1]} 1 \n")
 ```
 
-The code is pretty self-explanatory, but the gist of it is that we use the x and y coordinates of the boxes, representing the center, as the keypoint and also set the keypoint visibility to 1. So the format used is `class_id x y w h kp_x kp_y 1`. Then we also append the `kpt_shape` to the existing `data.yaml` file which is required for the training to work:
+The code is pretty self-explanatory, but the gist of it is that we use the x and y coordinates of the boxes, representing the center, as the keypoint and also set the keypoint visibility to 1. So the format used is `class_id x y w h kp_x kp_y visibility`. Then we append the `kpt_shape` to the existing `data.yaml` file which is required for the training to work:
 ```bash
 # Add keypoint shape to data.yaml
 echo "kpt_shape: [1, 3]" >> /content/Traffic-Signs-8/data.yaml
@@ -114,13 +116,13 @@ YOLOv8n-pose summary (fused): 187 layers, 3086681 parameters, 0 gradients, 8.4 G
                    all       2017       4906      0.581      0.476      0.506      0.319       0.57      0.508      0.541      0.537
 ```
 
-Despite reducing the box and dfl loss weights, we get over a 12% increase in the box mAP50 from using the keypoint targets. However, we see a slightly lower map50-95 score. This is because, as I mentioned, small object detection is very sensitive to IoU changes and since mAP50-95 averages the performance at higher IoU thresholds, it scores lower. However, in reality, the model performs better than the normal detection model in small object detection. There's also pose mAP in the results above which you can ignore since it's not important.
+Despite reducing the box and dfl loss weights, we get over a 12% increase in the box mAP50 from using the keypoint targets. However, we see a slightly lower map50-95 score. This is because, as was mentioned, small object detection is very sensitive to IoU changes and since mAP50-95 averages the performance at higher IoU thresholds, it scores lower. However, in reality, the model performs better than the normal detection model in small object detection. There's also pose mAP in the results above which you can ignore since it's for the pseudo-keypoints we created.
 
 ## Bringing Out The Detect In Pose
 
-If you look at the results shown in the previous section, you will notice that the pose model shows 8.4 GFLOPs while the detect model had shown 8.1 GLOPs. These extra FLOPs come from the pose head. But, don't worry. We can get it back down to 8.1 GFLOPs. Remember that I mentioned YOLOv8 pose models are just detection models with a pose head attached? Well, this also means that we can turn our pose model back to a detect model without losing any accuracy at all while removing the extra overhead introduced by the pose head.
+If you look at the results shown in the previous section, you will notice that the pose model shows 8.4 GFLOPs while the detect model had shown 8.1 GLOPs. These extra FLOPs come from the pose head. But don't worry. We can get it back down to 8.1 GFLOPs. Remember that I mentioned YOLOv8 pose models are just detection models with a pose head attached? Well, this also means that we can turn our pose model back to a detect model without losing any accuracy at all while removing the extra overhead introduced by the pose head.
 
-First, we edit the yaml to match the number of classes in the pose model so that the last layer can match:
+First, we edit the yaml to match the number of classes in the pose model so that the last layer weights don't have an issue loading:
 ```bash
 # Change nc to correct number of classes
 sed -i "s/nc: 80/nc: 48/g" ultralytics/cfg/models/v8/yolov8.yaml
@@ -143,7 +145,7 @@ YOLOv8n summary (fused): 168 layers, 3015008 parameters, 21840 gradients, 8.1 GF
                    all       2017       4906      0.586      0.474      0.507       0.32
 ```
 
-You see that all the metrics are pretty much the same, in fact, it's a bit higher here and the FLOPs count shows 8.1 which is what we had with the original detect model.
+You can see that all the metrics are pretty much the same, in fact, it's a bit higher here and the FLOPs count shows 8.1 which is what we had with the original detect model.
 
 ## Conclusion
 
