@@ -116,7 +116,7 @@ YOLOv8n-pose summary (fused): 187 layers, 3086681 parameters, 0 gradients, 8.4 G
                    all       2017       4906      0.581      0.476      0.506      0.319       0.57      0.508      0.541      0.537
 ```
 
-Despite reducing the box and dfl loss weights, we get over a 12% increase in the box mAP50 from using the keypoint targets. However, we see a slightly lower map50-95 score. This is because, as was mentioned, small object detection is very sensitive to IoU changes and since mAP50-95 averages the performance at higher IoU thresholds, it scores lower. However, in reality, the model performs better than the normal detection model in small object detection. There's also pose mAP in the results above which you can ignore since it's for the pseudo-keypoints we created.
+Despite reducing the box and dfl loss weights, we get over a 12% increase in the box mAP50 from using the keypoint targets, going from 44.8 in the previous training to 50.6 using the pose-based model. However, we see a slightly lower map50-95 score. This is because, as was mentioned, small object detection is very sensitive to IoU changes and since mAP50-95 averages the performance at higher IoU thresholds, it scores lower. However, in reality, the model performs better than the normal detection model in small object detection. There's also pose mAP in the results above which you can ignore since it's for the pseudo-keypoints we created.
 
 ## Bringing Out The Detect In Pose
 
