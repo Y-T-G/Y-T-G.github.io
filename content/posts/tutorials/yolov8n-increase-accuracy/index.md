@@ -1,6 +1,6 @@
 ---
-title: A Simple Trick To Increase YOLOv8 Accuracy On Small Objects With No Overhead
-seo_title: A Simple Trick To Increase YOLOv8 Accuracy On Small Objects With No Overhead
+title: A Simple Trick To Increase YOLOv8's Accuracy On Small Objects With No Overhead
+seo_title: A Simple Trick To Increase YOLOv8's Accuracy On Small Objects With No Overhead
 summary: Get over 10% more mAP in small object detection by exploiting YOLOv8 pose models while training.
 description: Get over 10% more mAP in small object detection by exploiting YOLOv8 pose models while training.
 slug: yolov8-increase-accuracy
