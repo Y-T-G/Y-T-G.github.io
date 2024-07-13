@@ -70,7 +70,7 @@ git clone https://github.com/ultralytics/ultralytics
 cd ultralytics
 
 # The patch may break for later versions. Change to the one used when writing this.
-git reset --hard 2071776a3672eb835d7c56cfff22114707765ac
+git reset --hard abd391b63338b79cebee808b6679498dcc94956f
 
 # Install this ultralytics repo as an editable Python package
 pip install -e .
@@ -79,7 +79,7 @@ pip install -e .
 To save you time, I have also turned the changes we will be making in this tutorial into a [patch](https://gist.github.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e) which you can easily apply through git:
 
 ```bash
-wget https://gist.githubusercontent.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e/raw/17b1407fefeac86d089c4cf14f174c8bb44948af/add_head.patch
+wget https://gist.githubusercontent.com/Y-T-G/8f4fc0b78a0a559a06fe84ae4f359e6e/raw/05a9086de3825e15ebef3830229273982c3ad9ec/add_head.patch
 git apply add_head.patch
 ```
 
