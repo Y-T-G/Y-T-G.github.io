@@ -3,6 +3,7 @@ title: Balance Classes During YOLO Training Using a Weighted Dataloader
 seo_title: Balance Classes During YOLO Training Using a Weighted Dataloader
 summary: Implement class balancing in Ultralytics using a weighted dataloader and improve the performance of minority class.
 description: Implement class balancing in Ultralytics using a weighted dataloader and improve the performance of minority class.
+slug: yolo-class-balancing
 author: Mohammed Yasin
 
 draft: false
