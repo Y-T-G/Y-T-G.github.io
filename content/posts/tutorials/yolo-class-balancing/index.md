@@ -171,9 +171,9 @@ extends to `RTDETR`.
 
 I ran a short test on a [traffic lights dataset](https://universe.roboflow.com/valorem-reply-diswd/traffic-lights-set-1/dataset/1) that I found on Roboflow, which has the following class distribution:
 
-<div style="display: flex; justify-content: center; gap: 10px;">
+<div style="display: flex; justify-content: center;">
   <div style="flex: 1; text-align: center;">
-    <img src="/tutorials/yolo-class-balancing/label_counts.jpg" alt="class distribution of the traffic lights dataset" style="max-width: 500px; height: auto;">
+    <img src="/tutorials/yolo-class-balancing/label_counts.jpg" alt="class distribution of the traffic lights dataset" style="max-width: 400px; height: auto;">
     <p><b>Class distribution of the traffic lights dataset</b></p>
   </div>
 </div>
