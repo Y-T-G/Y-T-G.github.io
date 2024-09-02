@@ -54,8 +54,8 @@ use the same data loading class. You can find the full Colab notebook
 
 ## Implementation
 
-To implement the dataloader, we start by creating a new Dataset class that
-inherits from the existing YOLODataset class. In this new class, we add the
+To implement the dataloader, we start by creating a new `Dataset` class that
+inherits from the existing `YOLODataset` class. In this new class, we add the
 necessary methods to handle weight balancing and override the `__getitem__`
 method to return images based on the calculated probabilities for each one.
 This ensures that the dataloader provides a more balanced distribution
