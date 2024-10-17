@@ -24,8 +24,6 @@ enableGitInfo = true # Default, enable to use git for lastmod (can be overwritte
 enableInlineShortcodes = false # Default, false is more security-friendly
 ignoreFiles = [] # Default
 # newContentEditor = 'code' # Set VS Code as default editor
-paginate = 10 # Default
-paginatePath = 'page' # Default
 pluralizeListTitles = true # Default
 publishDir = 'public' # Default
 relativeURLs = false # Default
@@ -216,3 +214,7 @@ giscus = true # Enable Giscus comments
   baseName = "_headers"
   isPlainText = true
   notAlternative = true
+
+[pagination]
+pagerSize = 10# Default
+path = 'page' # Default
