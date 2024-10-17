@@ -85,7 +85,7 @@ prepped = model.predictor.preprocess([img])
 result = model.predictor.inference(prepped)
 ```
 
-The `result` variable contains the outputs from layers 15, 18, 21, and 22 without any postprocessing applied. Before applying postprocessing, we need to modify the `non_maximum_suppression()` function to return the indices of the retained objects. This is necessary because the output from the last layer of YOLOv8n has the shape `[1, 84, 8400]`. This output is a concatenation of results from each FPN level: layer 15 produces `80x80 = 6400` anchors, layer 16 produces `40x40 = 1600` anchors, and layer 21 produces `20x20 = 400` anchors for an input of shape `640x640`. The total number of anchors is `6400 + 1600 + 400 = 8400`.
+The `result` variable contains the outputs from layers 15, 18, 21, and 22 without any postprocessing applied. Before applying postprocessing, we need to modify the `non_maximum_suppression()` function to return the indices of the retained objects. This is necessary because the output from the last layer of YOLOv8n has the shape `[1, 84, 8400]`. This output is a concatenation of results from each FPN level: layer 15 produces `80x80 = 6400` anchors, layer 18 produces `40x40 = 1600` anchors, and layer 21 produces `20x20 = 400` anchors for an input of shape `640x640`. The total number of anchors is `6400 + 1600 + 400 = 8400`.
 
 Each anchor has an associated feature used by the final layer to predict the location and class of objects. However, only a few anchors actually contain objects, which is why a confidence threshold and NMS are applied. To identify which anchors contributed to the final prediction, we need to modify the NMS function to return the indices of the 8400 outputs retained in the final postprocessed output. The modification is as follows:
 
@@ -182,7 +182,7 @@ We then use it to process the output of the final layer (layer 22; `result[-1]`)
 output, idxs = non_max_suppression(result[-1][0], in_place=False)
 ```
 
-Once we have indices of the anchors that were retained, we can then use it to get the feature vectors of an anchor by indexing into the grid cell of the FPN output corresponding to that particular anchor:
+Once we have indices of the anchors that were retained, we can then use it to get the feature vector by indexing into the grid cell of the FPN output corresponding to a particular anchor:
 
 ```python
 def get_object_features(feat_list, idxs):
@@ -209,7 +209,7 @@ The `obj_feats` variable will contain the feature vectors in the order of the bo
 tensor(0.3843, device='cuda:0')
 ```
 
-We can put this altogether in a single function so that you get both the features along with the usual `ultraytics` `Results` object:
+We can combine this in a single function so that you get both the features along with the usual `ultraytics` `Results` object:
 
 ```python
 # Combined function
