@@ -33,7 +33,7 @@ disable_comments: false
 
 Every detected object in an object detection network has an associated feature used for the final prediction. These object-level features from networks like YOLO are also valuable for various downstream tasks, such as similarity calculations used in re-identification. However, these features are not readily accessible, often leading people to use a separate network to obtain feature embeddings from object crops, which introduces unnecessary overhead.
 
-In this guide, we will extract these features directly from `ultralytics`, thereby avoiding the additional overhead.
+In this guide, we will extract these features directly from `ultralytics`, thereby avoiding the additional overhead. The Colab notebook with all the steps can be found [here](https://colab.research.google.com/drive/1DrBqSBuwpRvauYaEvJ1_8PyR4lW5WJCF?usp=sharing).
 
 ## Modifications To Obtain The Features
 
