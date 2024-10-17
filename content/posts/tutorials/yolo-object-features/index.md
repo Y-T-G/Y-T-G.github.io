@@ -64,7 +64,7 @@ def _predict_once(self, x, profile=False, visualize=False, embed=None):
 model.model._predict_once = MethodType(_predict_once, model.model)
 ```
 
-Next, we will initialize the `predictor` attribute of the `model` with the required arguments along with the layers from which we wish to extract the features:
+Next, we will initialize the `predictor` instance with the required arguments along with the layers from which we wish to extract the features:
 
 ```python
 # Initialize predictor so that we can perform preprocess, inference and postprocess ourselves.
@@ -76,7 +76,7 @@ Here, we specify the layers 15, 18, 21 and 22. The first 3 layers are FPN output
 
 We also extract layer 22, since that's the final layer with the actual predictions.
 
-Running the previous code creates a `predictor` instance that can be used without having to use `model.predict()`. The benefit of this is that we can decouple the preprocessing, inference and postprocessing steps:
+Running the previous code creates a `predictor` instance that can be used without having to call `model.predict()`. The benefit of this is that we can decouple the preprocessing, inference and postprocessing steps:
 
 ```python
 # Run inference
@@ -196,7 +196,7 @@ def get_object_features(feat_list, idxs):
 obj_feats = get_object_features(result[:3], idxs[0].tolist())
 ```
 
-We pass the outputs from layers 15, 18, and 21 to `get_object_features()`, along with the indices of the final objects. However, these outputs do not have the same number of channels (C) or feature vector lengths. To compare features from different FPN levels, we downsample the longer feature vectors to the shortest length, which is 64, using mean reduction.
+We pass the outputs from layers 15, 18, and 21 to `get_object_features()`, along with the indices of the final objects. However, these outputs do not have the same number of channels or feature vector lengths. To compare features from different FPN levels, we downsample the longer feature vectors to the shortest length, which is 64, using mean reduction.
 
 Next, we concatenate the flattened grids in the same order as the final layer concatenated the outputs from these layers. This ensures that the order of anchors matches the order of the 8400 outputs we saw earlier, allowing us to use the indices obtained from NMS to retrieve the corresponding feature vectors.
 
@@ -246,6 +246,6 @@ for box, feat in zip(result_with_feat.boxes.xyxy, result_with_feat.feats):
 
 ## Conclusion
 
-In this guide, we looked at how we can extract object-level features of YOLO from `ultralytics`. The method shown here avoids the overhead of having to run a separate embedding network on the crops of the objects avoiding unnecessary overhead, making it possible to integrate feature-based similarity calculation in downstream tasks without incurring latency.
+In this guide, we looked at how we can extract object-level features of YOLO from `ultralytics`. The method shown here doesn't require running a separate embedding network on the crops of the objects avoiding unnecessary overhead, making it possible to integrate feature-based similarity calculation in downstream tasks without incurring latency.
 
 Thanks for reading.
