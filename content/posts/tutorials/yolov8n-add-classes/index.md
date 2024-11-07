@@ -70,7 +70,7 @@ git clone https://github.com/ultralytics/ultralytics
 cd ultralytics
 
 # The patch may break for later versions. Change to the one used when writing this.
-git reset --hard abd391b63338b79cebee808b6679498dcc94956f
+git reset --hard 6806f15396432fffb951250d650454b840eb4c28
 
 # Install this ultralytics repo as an editable Python package
 pip install -e .
