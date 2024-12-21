@@ -49,9 +49,8 @@ def interpolate(model, frame, path):
     tracker.frame_id += 1
     boxes = [np.hstack([t.xyxy, t.track_id, t.score, t.cls]) for t in tracks]
     # Update frame_id in tracks
-    def update_fid(t, fid):
-        t.frame_id = fid
-    [update_fid(t, tracker.frame_id) for t in tracks]
+    for t in tracks:
+        t.frame_id = tracker.frame_id
     return Results(frame, path, model.names, np.array(boxes))
 ```
 
