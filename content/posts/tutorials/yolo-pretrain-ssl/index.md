@@ -112,10 +112,8 @@ This snippet transfers the weights from the matching layers in the pretrained ba
 ```python
 from ultralytics import YOLO
 
-
 yolo = YOLO("pretrained.pt")
 
-# Nothing different from your usual process
 results = yolo.train(data="VOC.yaml", epochs=1, freeze=0, warmup_epochs=0, imgsz=640, val=False)
 ```
 
