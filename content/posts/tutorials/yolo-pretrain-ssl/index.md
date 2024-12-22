@@ -68,7 +68,7 @@ out = yolo.model(dummy)
 input_dim = out.flatten(start_dim=1).shape[1]
 ```
 
-The `input_dim` in this case is `256` and we use that along with the YOLO backbone to initialize the `DINO` model:
+The `input_dim` in this case is `1280` and we use that along with the YOLO backbone to initialize the `DINO` model:
 
 ```python
 input_dim = out.flatten(start_dim=1).shape[1]
