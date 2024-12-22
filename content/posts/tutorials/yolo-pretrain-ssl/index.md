@@ -64,7 +64,6 @@ In this snippet, we are first loading the YOLO model and then stripping away the
 After that, we perform another dummy forward pass to get the output channel size of the backbone:
 
 ```python
-dummy = torch.rand(2, 3, GLOBAL_CROP_SIZE, GLOBAL_CROP_SIZE)
 out = yolo.model(dummy)
 input_dim = out.flatten(start_dim=1).shape[1]
 ```
