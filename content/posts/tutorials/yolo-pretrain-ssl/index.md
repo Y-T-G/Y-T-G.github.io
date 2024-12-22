@@ -79,7 +79,7 @@ model = DINO(backbone, input_dim)
 
 Here, we also do two other things prior to creating the model. We enable gradient calculation for the backbone which is disabled by default in Ultralytics. And we also put the backbone in training mode so that BatchNorm statistics get updated during training.
 
-And lastly, we create a `transform` with the default `mean` and `std` used by YOLO to keep it consistent with what's used by YOLO:
+And lastly, we create a `transform` with a default `mean` and `std` that is consistent with what's used by YOLO:
 
 ```python
 normalize = dict(mean=(0.0, 0.0, 0.0), std=(1.0, 1.0, 1.0))  # YOLO uses these values
