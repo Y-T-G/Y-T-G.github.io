@@ -31,7 +31,7 @@ disable_comments: false
 
 ## Introduction
 
-[LightlySSL](https://github.com/lightly-ai/lightly) is an elegant and easy-to-use framework for self-supervised learning. It allows you effortlessly pretrain a backbone of your choice through several popular self-supervised learning techniques. In this guide, we will look at how to use Lightly to pretrain a YOLO backbone using DINO and also how to load it back into Ultralytics for fine-tuning. The Colab notebook is [here](http://colab.research.google.com/drive/1D1he_wR8AZt3wn-t8aSnR6s4SMV43jhv).
+[LightlySSL](https://github.com/lightly-ai/lightly) is an elegant and easy-to-use framework for self-supervised learning. It allows you effortlessly pretrain a backbone of your choice through several popular self-supervised learning techniques. In this guide, we will look at how to use Lightly to pretrain a YOLO backbone using DINO and also how to load it back into Ultralytics for fine-tuning. The Colab notebook with the complete code is [here](http://colab.research.google.com/drive/1D1he_wR8AZt3wn-t8aSnR6s4SMV43jhv).
 
 ## Implementation
 
