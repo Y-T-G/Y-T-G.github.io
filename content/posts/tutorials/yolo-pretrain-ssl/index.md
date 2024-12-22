@@ -41,28 +41,30 @@ We will modify [this example notebook](https://colab.research.google.com/github/
 yolo = YOLO("yolo11n.pt")
 
 class PoolHead(nn.Module):
-  """ Apply average pooling to the output."""
-  def __init__(self, f, i):
+  """ Apply average pooling to the outputs. Adapted from Classify head."""
+  def __init__(self, f, i, c1):
     super().__init__()
     self.f = f  # receive the outputs from these layers
     self.i = i  # layer number
-    self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
+    self.conv = Conv(c1, 1280, 1, 1, None, 1)
+    self.avgpool = nn.AdaptiveAvgPool2d(1)
 
   def forward(self, x):
-    return self.avgpool(x)
+    return self.avgpool(self.conv(x))
 
 # Only backbone
 yolo.model.model = yolo.model.model[:12]  # Keep first 12 layers
-yolo.model.model[-1] = PoolHead(yolo.model.model[-1].f, yolo.model.model[-1].i)  # Replace 12th layer with PoolHead
+dummy = torch.rand(2, 3, GLOBAL_CROP_SIZE, GLOBAL_CROP_SIZE)
+out = yolo.model.model[:-1](dummy) # Run forward pass only using the first 11 layers
+yolo.model.model[-1] = PoolHead(yolo.model.model[-1].f, yolo.model.model[-1].i, out.shape[1])  # Replace 12th layer with PoolHead
 ```
 
-In this snippet, we are first loading the YOLO model and then stripping away the head. Then we attach a `PoolHead` to the backbone. This `PoolHead` would take the output of the previous layer and apply adaptive average pooling to reduce the spatial dimensions of the feature map to a fixed and consistent size (`1x1`). This is required because the spatial dimensions would otherwise vary depending on the size of the input which would make it difficult to attach the DINO head to the backbone since it requires a fixed input size.
+In this snippet, we are first loading the YOLO model and then stripping away the head. For YOLO11, the backbone is the first 11 layers. You can check the [`yaml` model definition](https://github.com/ultralytics/ultralytics/blob/1d13575ba16623d711c682118ee118615383ba99/ultralytics/cfg/models/11/yolo11.yaml) to verify that. Then we attach a `PoolHead` to the backbone. This `PoolHead` would take the output of the previous layer and apply a convolution and then adaptive average pooling to reduce the spatial dimensions of the feature map to a fixed and consistent size (`1x1`). It's similar to the YOLO [`Classify`](https://github.com/ultralytics/ultralytics/blob/1d13575ba16623d711c682118ee118615383ba99/ultralytics/nn/modules/head.py#L282) head, just without the linear layer. This is required because the spatial dimensions would otherwise vary depending on the size of the input which would make it difficult to attach the DINO head to the backbone since it requires a fixed input size.
 
-After that, we perform a dummy forward pass to get the output channel size of the backbone:
+After that, we perform another dummy forward pass to get the output channel size of the backbone:
 
 ```python
-CROP_SIZE = 224
-dummy = torch.rand(2, 3, CROP_SIZE, CROP_SIZE)
+dummy = torch.rand(2, 3, GLOBAL_CROP_SIZE, GLOBAL_CROP_SIZE)
 out = yolo.model(dummy)
 input_dim = out.flatten(start_dim=1).shape[1]
 ```
@@ -70,6 +72,7 @@ input_dim = out.flatten(start_dim=1).shape[1]
 The `input_dim` in this case is `256` and we use that along with the YOLO backbone to initialize the `DINO` model:
 
 ```python
+input_dim = out.flatten(start_dim=1).shape[1]
 backbone = yolo.model.requires_grad_()
 backbone.train()
 model = DINO(backbone, input_dim)
@@ -81,10 +84,10 @@ And lastly, we create a `transform` with the default `mean` and `std` used by YO
 
 ```python
 normalize = dict(mean=(0.0, 0.0, 0.0), std=(1.0, 1.0, 1.0))  # YOLO uses these values
-transform = DINOTransform(global_crop_size=CROP_SIZE, normalize=normalize)
+transform = DINOTransform(global_crop_size=GLOBAL_CROP_SIZE, local_crop_size=LOCAL_CROP_SIZE, normalize=normalize)
 ```
 
-The `CROP_SIZE` is `224` by default. You could use a different size such as `640` which is more consistent with the default image size in YOLO, but it would also consume more VRAM during training. There's also `local_crop_size` that you can control, which is by default set to `96`. These are all DINO related parameters and you can read about them in the [Lightly Docs](https://docs.lightly.ai/self-supervised-learning/lightly.transforms.html#lightly.transforms.dino_transform.DINOTransform).
+The `GLOBAL_CROP_SIZE` is `224` by default. You could use a different size such as `640` which is more consistent with the default image size in YOLO, but it would also consume more VRAM during training. There's also `LOCAL_CROP_SIZE` that you can control, which is by default set to `96`. These are all DINO related parameters and you can read about them in the [Lightly Docs](https://docs.lightly.ai/self-supervised-learning/lightly.transforms.html#lightly.transforms.dino_transform.DINOTransform).
 
 And that's pretty much all the modifications you need to make. You then simply load your dataset, create your dataloader, define the loss function and optimizer, and start training. I am just using the defaults in the DINO notebook.
 
