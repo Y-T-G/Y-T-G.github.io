@@ -8,6 +8,10 @@ secondary_cta_page: "projects"
 
 posts_section_heading: Recent Posts
 projects_section_heading: My Projects
+
+sitemap:
+  changefreq: daily
+  priority: 1.0
 ---
 
 {{< recent-posts 5 >}}

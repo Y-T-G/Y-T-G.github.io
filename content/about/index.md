@@ -4,6 +4,9 @@ linktitle: About
 title: Hi, I'm Mohammed Yasin.
 seo_title: About
 description: Learn more about my background and experience.
+sitemap:
+  changefreq: weekly
+  priority: 0.8
 ---
 
 ## My Background

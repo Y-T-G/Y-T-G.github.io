@@ -121,9 +121,9 @@ giscus = true # Enable Giscus comments
 
 [sitemap]
   # Default sitemap settings
-  changefreq = 'monthly'
+  changefreq = 'weekly'
   filename = 'sitemap.xml'
-  priority = 0.5
+  priority = -1
 
 [frontmatter]
   # Default frontmatter date settings
