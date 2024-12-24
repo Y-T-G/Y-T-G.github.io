@@ -1,0 +1,18 @@
+{{ $username := "Y-T-G" }}
+{{ $repo := "ultralytics/ultralytics" }}
+
+{{/* Get the contribution count using GitHub API */}}
+{{ $apiUrl := printf "https://api.github.com/search/issues?q=is:issue+commenter:%s+repo:%s" $username $repo }}
+{{ $response := resources.GetRemote $apiUrl }}
+{{ $issues := $response.Content | transform.Unmarshal }}
+
+{{/* Format the number with K suffix if over 1000 */}}
+{{ $count := $issues.total_count }}
+{{ $formatted := $count }}
+{{ if ge $count 1000 }}
+    {{ $formatted = printf "%.1fK+" (div (float $count) 1000) }}
+{{ else }}
+    {{ $formatted = printf "%d+" (int $count) }}
+{{ end }}
+
+{{ $formatted }}
