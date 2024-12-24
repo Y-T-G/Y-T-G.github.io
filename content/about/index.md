@@ -18,7 +18,7 @@ I am a Masters student at Universiti Teknologi Malaysia, researching active lear
 I have worked in the video analytics industry for over two years, building and optimizing computer vision models and pipelines for production.
 
 ### Community Moderator @ Ultralytics (Aug 2024 - Present)
-- Responded to over {{< github-issues >}} issues on GitHub, and addressed hundreds of other queries from the community on Discord,
+- Responded to {{< github-issues >}} issues on GitHub, and addressed hundreds of other queries from the community on Discord,
 Reddit and Forums.
 - Contributed {{< github-pr >}} PRs to address bugs, fix documentation issues, and improve overall user experience.
 
