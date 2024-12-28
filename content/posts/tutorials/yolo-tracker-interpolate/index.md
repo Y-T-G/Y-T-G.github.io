@@ -2,7 +2,7 @@
 title: Boosting Inference FPS With Tracker Interpolated Detections
 seo_title: Boosting Inference FPS With Tracker Interpolated Detections
 summary: Boost your inference performance by exploiting Kalman filter predictions to interpolate detections for skipped frames.
-description: Boost your inference performance by exploiting Kalman filter predictions to interpolate detections for skipped frames.
+description: Boost your inference performance by skipping inference and exploiting Kalman filter predictions to interpolate detections on intermediate frames.
 slug: yolo-tracker-interpolate
 author: Mohammed Yasin
 
