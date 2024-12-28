@@ -2,7 +2,7 @@
 title: MMDetection 3.x Hacks and Tricks
 seo_title: MMDetection 3.x Hacks and Tricks
 summary: Some useful tricks and hacks I learnt while using MMDetection for my research work.
-description: A guide showing how to reinitalize the model, filter the dataset and more in MMDetection.
+description: A guide showing how to reinitalize the model, filter the dataset, reinitialize the visualizer, modify useful properties and more in MMDetection.
 slug: mmdetection-hacks-tricks
 author: Mohammed Yasin
 
