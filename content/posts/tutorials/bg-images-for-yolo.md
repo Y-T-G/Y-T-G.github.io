@@ -2,7 +2,7 @@
 title: How to download background images for YOLO model training?
 seo_title: Downloading Background Images For YOLO Model Training
 summary: Guide to download background images using COCOAPI.
-description: A simple guide to downloading background images to reduce false positives in object detection models.
+description: A simple guide showing how to download background or negative images from the COCO dataset to reduce false positives in object detection models.
 slug: bg-images-for-yolo
 author: Mohammed Yasin
 
