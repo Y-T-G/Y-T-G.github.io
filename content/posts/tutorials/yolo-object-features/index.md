@@ -2,7 +2,7 @@
 title: Retrieving Object-Level Features From YOLO
 seo_title: Retrieving Object-Level Features From YOLO
 summary: Extract the object-level features from YOLO for downstream tasks without extra overhead.
-description: Extract the object-level features from YOLO for downstream tasks without extra overhead.
+description: Extract the object-level features from YOLO for downstream tasks such as object similarity calculation without the extra overhead of using a separate embedding network.
 slug: yolo-object-features
 author: Mohammed Yasin
 
