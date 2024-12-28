@@ -2,7 +2,7 @@
 title: Pretrain YOLO Backbone Using Self-Supervised Learning With Lightly
 seo_title: Pretrain YOLO Backbone Using Self-Supervised Learning With Lightly
 summary: Use Lightly to pretrain a YOLO backbone through self-supervised learning and then fine-tune it in Ultralytics.
-description: Use Lightly to pretrain a YOLO backbone through self-supervised learning and then fine-tune it in Ultralytics.
+description: Use DINO with Lightly to pretrain a YOLO backbone through self-supervised learning, and then easily fine-tune the pretrained model with Ultralytics.
 slug: yolo-pretrain-ssl
 author: Mohammed Yasin
 
