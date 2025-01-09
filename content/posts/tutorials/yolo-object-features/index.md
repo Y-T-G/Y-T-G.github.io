@@ -80,8 +80,8 @@ Running the previous code creates a `predictor` instance that can be used withou
 
 ```python
 # Run inference
-img = cv2.imread("ultralytics/assets/bus.jpg")
-prepped = model.predictor.preprocess([img])
+imgs = [cv2.imread("ultralytics/assets/bus.jpg")]
+prepped = model.predictor.preprocess(imgs)
 result = model.predictor.inference(prepped)
 ```
 
@@ -99,10 +99,9 @@ Each anchor has an associated feature used by the final layer to predict the loc
 
 +    # To keep track of the prediction indices that remain at the end, we create an indices
 +    # list that will be applied the same filters that get applied to the original predictions.
-+    # That way, at the end, we will have xk with only the indices of the predictions that
++    # That way, at the end, we will have xks with only the indices of the predictions that
 +    # have not been eliminated.
-+    xk = torch.tensor([list(range(len(i))) for i in xc], device=prediction.device)
-+
++    xinds = torch.stack([torch.arange(len(i), device=prediction.device) for i in xc])[...,None]
      # Settings
      # min_wh = 2  # (pixels) minimum box width and height
      time_limit = 2.0 + max_time_img * bs  # seconds to quit after
@@ -117,8 +116,9 @@ Each anchor has an associated feature used by the final layer to predict the loc
 
      t = time.time()
      output = [torch.zeros((0, 6 + nm), device=prediction.device)] * bs
+-    for xi, x in enumerate(prediction):  # image index, image inference
 +    feati = [torch.zeros((0, 1), device=prediction.device)] * bs
-     for xi, x in enumerate(prediction):  # image index, image inference
++    for xi, (x, xk) in enumerate(zip(prediction, xinds)):  # image index, image inference
          # Apply constraints
          # x[((x[:, 2:4] < min_wh) | (x[:, 2:4] > max_wh)).any(1), 4] = 0  # width-height
 -        x = x[xc[xi]]  # confidence
@@ -189,11 +189,11 @@ def get_object_features(feat_list, idxs):
     # feat_list would contain feature maps in grid format (N, C, H, W), where each (H,W) is an anchor location.
     # We permute and then flatten the grid so that each grid and its feature vectors
     # correspond with the indexes of the prediction. We also downsample the vector to the smallest one (64).
-    obj_feats = torch.cat([x.permute(0, 2, 3, 1).reshape(-1, 64, x.shape[1] // 64).mean(dim=-1) for x in feat_list], dim=0)
-    return obj_feats[idxs]
+    obj_feats = torch.cat([x.permute(0, 2, 3, 1).reshape(x.shape[0], -1, 64, x.shape[1] // 64).mean(dim=-1) for x in feat_list], dim=1)
+    return [feats[idx] for feats, idx in zip(obj_feats, idxs)] # for each image in batch, indexed separately
 
-# Get features of every detected objected in the final output.
-obj_feats = get_object_features(result[:3], idxs[0].tolist())
+# Get features of every detected objected in the final output for every image in batch.
+obj_feats = get_object_features(result[:3], idxs)
 ```
 
 We pass the outputs from layers 15, 18, and 21 to `get_object_features()`, along with the indices of the final objects. However, these outputs do not have the same number of channels or feature vector lengths. To compare features from different FPN levels, we downsample the longer feature vectors to the shortest length, which is 64, using mean reduction.
@@ -205,7 +205,8 @@ The `obj_feats` variable will contain the feature vectors in the order of the bo
 ```python
 # Similarity between first and second object
 # The order corresponds to the order of boxes in results below
->>> cosine_similarity(obj_feats[0], obj_feats[1], dim=0)
+>>> i = 0  # first image in batch
+>>> cosine_similarity(obj_feats[i][0], obj_feats[i][1], dim=0)
 tensor(0.3843, device='cuda:0')
 ```
 
@@ -213,29 +214,33 @@ We can combine this in a single function so that you get both the features along
 
 ```python
 # Combined function
-def get_result_with_features(img):
+def get_result_with_features(imgs):
   # Run inference
-  img = cv2.imread(img)
-  prepped = model.predictor.preprocess([img])
+  imgs = [cv2.imread(img) for img in imgs]
+  prepped = model.predictor.preprocess(imgs)
   result = model.predictor.inference(prepped)
 
   # This would return the NMS output in xywh format and the idxs of the predictions that were retained.
-  output, idxs = non_max_suppression(result[-1][0], in_place=False)
+  outputs, idxs = non_max_suppression(result[-1][0], in_place=False)
 
   # Get features of every detected objected in the final output.
-  obj_feats = get_object_features(result[:3], idxs[0].tolist())
+  obj_feats = get_object_features(result[:3], idxs)
 
   # Also turn the original inference output into results
-  output[0][:, :4] = scale_boxes(prepped.shape[2:], output[0][:, :4], img.shape)
-  result = Results(img, path="", names=model.predictor.model.names, boxes=output[0])
-  result.feats = obj_feats
+  results = []
+  for img, output, feat in zip(imgs, outputs, obj_feats):
+      output[:, :4] = scale_boxes(prepped.shape[2:], output[:, :4], img.shape)
+      result = Results(img, path="", names=model.predictor.model.names, boxes=output)
+      result.feats = feat
+      results.append(result)
 
-  return result
+  return results
 
-result_with_feat = get_result_with_features("ultralytics/assets/bus.jpg")
+results_with_feat = get_result_with_features([ASSETS / "bus.jpg"])
 
 # You can now easily access the box along with the features of that particular box
-for box, feat in zip(result_with_feat.boxes.xyxy, result_with_feat.feats):
+result = results_with_feat[0]
+for box, feat in zip(result.boxes.xyxy, result.feats):
   # Use box or feat
 ```
 
