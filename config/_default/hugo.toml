@@ -48,6 +48,7 @@ theme = 'hugo-liftoff'
 [params]
 utterances = false # Enable Utterances comments
 giscus = true # Enable Giscus comments
+citations = true # Enable citations
 
 [taxonomies]
     tag = 'tags'

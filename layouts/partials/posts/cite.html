@@ -1,0 +1,104 @@
+{{ $title := .Title }}
+{{ $url := printf "%s" .Permalink }}
+{{ $cleanUrl := replaceRE "^(https?://)?(www\\.)?" "" $url }}
+{{ $cleanUrl := strings.TrimSuffix "/" $cleanUrl }}
+{{ $date := .Date.Format "2006" }}
+{{ $authorFull := .Site.Params.author }}
+{{ $authorParts := split $authorFull " " }}
+{{ $firstName := index $authorParts 0 }}
+{{ $lastName := index $authorParts (sub (len $authorParts) 1) }}
+{{ $firstInitial := printf "%.1s" $firstName }}
+
+<section class="cite-section">
+    <h2>Cite</h2>
+    <div class="citation-formats tabs">
+        <div class="tab-headers">
+            <button class="tab-button active" data-tab="apa">APA</button>
+            <button class="tab-button" data-tab="mla">MLA</button>
+            <button class="tab-button" data-tab="chicago">Chicago</button>
+            <button class="tab-button" data-tab="biblatex">BibLaTeX</button>
+        </div>
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="apa">
+                <p class="citation-text">
+                    {{ $lastName }}, {{ $firstInitial }}. ({{ $date }}). <i>{{ $title }}</i>. {{ $url }}
+                </p>
+            </div>
+            <div class="tab-pane" id="mla">
+                <p class="citation-text">
+                    {{ $lastName }}, {{ $firstName }}. “{{ $title }}.” <i>{{ $.Site.Title }}</i>, {{ $.Date.Format "2 Jan. 2006" }}, {{ $cleanUrl }}.
+                </p>
+            </div>
+            <div class="tab-pane" id="chicago">
+                <p class="citation-text">
+                    {{ $firstName }} {{ $lastName }}. “{{ $title }}.” {{ $.Site.Title }}. {{ $.Date.Format "January 2, 2006" }}. {{ $url }}.
+                </p>
+            </div>
+            <div class="tab-pane" id="biblatex">
+                <pre class="citation-text">@online{ {{- .Slug -}},
+    type = {Blog},
+    title = { {{- $title -}} },
+    author = { {{- $lastName -}},{{ " " }}{{- $firstName -}} },
+    date = { {{- $.Date.Format "2006-01-02" -}} },
+    abstract = { {{- $.Description -}} },
+    url = { {{- $url -}} },
+    urldate = { {{- now.Format "2006-01-02" -}} },
+    organization = { {{- $.Site.Title -}} },
+}              </pre>
+            </div>
+        </div>
+</section>
+
+<style>
+    .tabs {
+        margin: 2rem 0;
+    }
+
+    .tab-headers {
+        display: flex;
+        gap: 1rem;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .tab-button {
+        padding: 0.5rem 1rem;
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: var(--color-primary);
+    }
+
+    .tab-button.active {
+        border-bottom: 2px solid currentColor;
+    }
+
+    .tab-pane {
+        display: none;
+        padding: 1rem 0;
+    }
+
+    .tab-pane.active {
+        display: block;
+    }
+
+    .citation-text {
+        margin: 0;
+        word-break: break-all;
+        font-size: 0.8em;
+    }
+</style>
+
+<script>
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active classes
+            document.querySelectorAll('.tab-button, .tab-pane').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Add active class to clicked tab and corresponding content
+            button.classList.add('active');
+            document.getElementById(button.dataset.tab).classList.add('active');
+        });
+    });
+</script>
