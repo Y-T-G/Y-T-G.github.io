@@ -32,7 +32,7 @@
             </div>
             <div class="tab-pane" id="mla">
                 <p class="citation-text">
-                    {{ $lastName }}, {{ $firstName }}. “{{ $title }}.” <i>{{ if not $hasDoi }}{{(.Site.Title)}}{{end}}</i>, {{ $.Date.Format "2 Jan. 2006" }}, {{ cond $hasDoi (print "https://doi.org/" $doi) $cleanUrl }}.
+                    {{ $lastName }}, {{ $firstName }}. “{{ $title }}.” {{ if not $hasDoi }}<i></i>{{(.Site.Title)}}</i>,{{end}} {{ $.Date.Format "2 Jan. 2006" }}, {{ cond $hasDoi (print "https://doi.org/" $doi) $cleanUrl }}.
                 </p>
             </div>
             <div class="tab-pane" id="chicago">
