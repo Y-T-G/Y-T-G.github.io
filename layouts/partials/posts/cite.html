@@ -1,5 +1,6 @@
-{{ $title := .Title }}
-{{ $url := printf "%s" .Permalink }}
+{{ $title := cond (isset .Params "cite") .Params.cite.title .Title }}
+{{ $rawUrl := cond (isset .Params "cite") .Params.cite.url .Permalink }}
+{{ $url := printf "%s" $rawUrl }}
 {{ $cleanUrl := replaceRE "^(https?://)?(www\\.)?" "" $url }}
 {{ $cleanUrl := strings.TrimSuffix "/" $cleanUrl }}
 {{ $date := .Date.Format "2006" }}
@@ -8,7 +9,11 @@
 {{ $firstName := index $authorParts 0 }}
 {{ $lastName := index $authorParts (sub (len $authorParts) 1) }}
 {{ $firstInitial := printf "%.1s" $firstName }}
+{{ $hasDoi := and (isset .Params "cite") (isset .Params.cite "doi") }}
+{{ $doi := cond $hasDoi .Params.cite.doi "" }}
+{{ $abstract := cond $hasDoi .Params.cite.abstract .Description }}
 
+{{ $publisher := cond $hasDoi .Params.cite.publisher .Site.Title }}
 <section class="cite-section">
     <h2>Cite</h2>
     <div class="citation-formats tabs">
@@ -22,29 +27,32 @@
         <div class="tab-content">
             <div class="tab-pane active" id="apa">
                 <p class="citation-text">
-                    {{ $lastName }}, {{ $firstInitial }}. ({{ $date }}). <i>{{ $title }}</i>. {{ $.Site.Title }}. {{ $url }}
+                    {{ $lastName }}, {{ $firstInitial }}. ({{ $date }}). <i>{{ $title }}</i>. {{ cond $hasDoi "[Unpublished manuscript]" .Site.Title }}. {{ cond $hasDoi (print "https://doi.org/" $doi) $url }}
                 </p>
             </div>
             <div class="tab-pane" id="mla">
                 <p class="citation-text">
-                    {{ $lastName }}, {{ $firstName }}. “{{ $title }}.” <i>{{ $.Site.Title }}</i>, {{ $.Date.Format "2 Jan. 2006" }}, {{ $cleanUrl }}.
+                    {{ $lastName }}, {{ $firstName }}. “{{ $title }}.” <i>{{ if not $hasDoi }}{{(.Site.Title)}}{{end}}</i>, {{ $.Date.Format "2 Jan. 2006" }}, {{ cond $hasDoi (print "https://doi.org/" $doi) $cleanUrl }}.
                 </p>
             </div>
             <div class="tab-pane" id="chicago">
                 <p class="citation-text">
-                    {{ $firstName }} {{ $lastName }}. “{{ $title }}.” {{ $.Site.Title }}. {{ $.Date.Format "January 2, 2006" }}. {{ $url }}.
+                    {{ $firstName }} {{ $lastName }}. “{{ $title }}.” {{ if not $hasDoi }}{{(.Site.Title)}}. {{end}} {{ $.Date.Format "January 2, 2006" }}. {{ cond $hasDoi (print "https://doi.org/" $doi) $url }}.
                 </p>
             </div>
             <div class="tab-pane" id="biblatex">
                 <pre class="citation-text">@online{ {{- .Slug -}},
-    type = {Blog},
     title = { {{- $title -}} },
-    author = { {{- $lastName -}},{{ " " }}{{- $firstName -}} },
+    author = { {{- $lastName -}}, {{ " " }}{{- $firstName -}} },
     date = { {{- $.Date.Format "2006-01-02" -}} },
-    abstract = { {{- $.Description -}} },
-    url = { {{- $url -}} },
+    abstract = { {{- $abstract -}} },
+    url = { {{- $url -}} },{{ if $hasDoi }}
+    doi = { {{- $doi -}} },
+    pubstate = {prepublished}
+{{ else }}
+    type = {Blog}
     maintitle = { {{- $.Site.Title -}} }
-}              </pre>
+{{ end }}}</pre>
             </div>
         </div>
 </section>

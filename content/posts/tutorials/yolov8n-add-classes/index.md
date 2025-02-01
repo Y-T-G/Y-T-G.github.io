@@ -27,6 +27,14 @@ related: true
 social_share: true
 newsletter: false
 disable_comments: false
+
+cite:
+  title: Extending Anchor-Based YOLO Models With New Classes Through Additional Head
+  url: https://rgdoi.net/10.13140/RG.2.2.10569.45925
+  doi: 10.13140/RG.2.2.10569.45925
+  abstract: Retaining a model's existing performance while increasing the number of classes is a common challenge in deep learning. Although there are approaches to minimize performance degradation on existing classes in such scenarios, all of them require modifying the existing weights, which inevitably affects the model's performance on those classes. This paper proposes an alternative approach for anchor-based YOLO models by attaching a new head to the trained model to accommodate the new classes. By doing so, it maintains a 1:1 performance on the existing classes while also detecting the newly added ones. Code available at https://y-t-g.github.io/tutorials/yolov8n-add-classes/
+  journal: Unpublished
+  publisher: Unpublished
 ---
 
 ## Introduction  
