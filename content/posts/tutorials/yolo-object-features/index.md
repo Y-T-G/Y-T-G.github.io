@@ -246,10 +246,13 @@ for box, feat in zip(result.boxes.xyxy, result.feats):
 
 Let’s compare the similarity scores and latency between ResNet50 features and the object-level features extracted from YOLO.
 
-<p align="center">
-  <img src="/tutorials/yolo-object-features/similarity_comparison.png"
-  alt="comparison of latencies and similarity scores between yolo and resnet embeddings"/>
-</p>
+<div style="display: flex; justify-content: center;">
+  <div style="flex: 1; text-align: center;">
+    <img src="/tutorials/yolo-object-features/similarity_comparison.png" alt="comparison of latencies and similarity scores between yolo and resnet embeddings" style="max-width: 400px; height: auto;">
+    <p><b>At the bottom of each pair, are the cosine similarity scores calculated based on YOLO and ResNet50 embeddings.</b></p>
+  </div>
+</div>
+
 
 ResNet50 is noticeably slower, taking 953.8ms to extract embeddings from all individual object crops, whereas YOLO completes detection and feature extraction in 165.1ms. These latencies were measured on Google Colab's CPU instance. The latency of ResNet50 would also increase with increase in number of instances.
 
