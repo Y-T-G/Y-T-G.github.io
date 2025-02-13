@@ -242,8 +242,21 @@ for box, feat in zip(result.boxes.xyxy, result.feats):
   alt="similarity score calculated using the extracted feature vector"/>
 </p>
 
+## Comparison with ResNet50
+
+Let’s compare the similarity scores and latency between ResNet50 features and the object-level features extracted from YOLO.
+
+<p align="center">
+  <img src="/tutorials/yolo-object-features/similarity_comparison.png"
+  alt="comparison of latencies and similarity scores between yolo and resnet embeddings"/>
+</p>
+
+ResNet50 is noticeably slower, taking 953.8ms to extract embeddings from all individual object crops, whereas YOLO completes detection and feature extraction in 165.1ms. These latencies were measured on Google Colab's CPU instance. The latency of ResNet50 would also increase with increase in number of instances.
+
+In terms of similarity scores, ResNet50 embeddings provides relatively higher scores, even for visually dissimilar pairs such as the second and the fourth pairs. The embeddings from YOLO, on the other hand, provide lower similarity scores in general, but they also discriminate better between similar and dissimilar pairs. For example, the least similar pairs based on the YOLO embeddings are the second and fourth pairs, which are indeed different vehicles. In contrast, the ResNet50 embeddings produce the lowest score for the first pair, which actually are similar vehicles differing mainly in color.
+
 ## Conclusion
 
-In this guide, we looked at how we can extract object-level features of YOLO from `ultralytics`. The method shown here doesn't require running a separate embedding network on the crops of the objects avoiding unnecessary overhead, making it possible to integrate feature-based similarity calculation in downstream tasks without incurring latency.
+This guide explored how to extract object-level features directly from YOLO using `ultralytics`. Unlike traditional approaches that require cropping detected objects and running a separate embedding network on each crop, this method avoids that extra overhead. It enables feature-based similarity calculations to be integrated into downstream tasks with minimal latency. We also compared YOLO’s object embeddings to ResNet50. While YOLO’s embeddings produced lower similarity scores, they were however more disciminative and significantly faster to obtain.
 
 Thanks for reading.
