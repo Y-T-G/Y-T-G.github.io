@@ -11,11 +11,11 @@ sitemap:
 
 ## My Background
 
-I am a Masters student at Universiti Teknologi Malaysia, researching active learning for object detectors.
+A computer vision enthusiast who spends too much time answering questions on the internet.
 
 ## My Experience
 
-I have worked in the video analytics industry for over two years, building and optimizing computer vision models and pipelines for production.
+I've worked in the video analytics industry for over two years, building and optimizing computer vision models and pipelines for production.
 
 ### Community Moderator @ Ultralytics (Aug 2024 - Present)
 - Responded to {{< github-issues >}} issues on GitHub, and addressed hundreds of other queries from the community on Discord,
@@ -34,14 +34,7 @@ Reddit and Forums.
 
 ### Computer Vision Intern @ Tapway (Jan 2022 - Sep 2022)
 
-An AI startup where I worked on projects from high-profile clients such as PLUS, RTS, KLK and others which are now deployed to production.
- 
-**Python Development**
-
 - Developed an efficient inference pipeline to detect and track anomalous objects with ~90% accuracy.
 - Implemented intelligent runtime ROI adjustment to tackle continuous variations in ROI, improving counting accuracy.
-
-**Model Inference Optimization**
-
 - Reduced resource starvation and latency spikes in multi-stream inference by optimizing the number of threads spawned by each process.
 - Fixed a major memory leak in the inference pipeline that was causing noticeable degradation in performance.
