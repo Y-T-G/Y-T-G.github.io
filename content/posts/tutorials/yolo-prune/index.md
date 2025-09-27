@@ -83,7 +83,7 @@ In this branch, I have modified the `save_model()` method of `BaseTrainer` to sa
                  "best_fitness": self.best_fitness,
                  "model": None,  # resume and final checkpoints derive from EMA
 -                "ema": deepcopy(unwrap_model(self.ema.ema)).half(),
-+                "ema": None if self.args.int8 else model.half(),
++                "ema": None if extras else model.half(),
                  "updates": self.ema.updates,
                  "optimizer": convert_optimizer_state_dict_to_fp16(deepcopy(self.optimizer.state_dict())),
                  "scaler": self.scaler.state_dict(),
