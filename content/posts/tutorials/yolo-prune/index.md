@@ -197,10 +197,10 @@ Here, `score_func` evaluates model fitness during pruning, and `collect_func` pr
 Training can now be launched with the `PrunedTrainer`:
 
 ```python
-results = model.train(data="coco128.yaml", trainer=PrunedTrainer, epochs=1)
+results = model.train(data="coco128.yaml", trainer=PrunedTrainer, epochs=50)
 ```
 
-This example fine-tunes the pruned model for 1 epoch on COCO128. In practice, you should use your actual dataset and a higher epoch count for better results. During training, the output logs will show if your constraints can be met:
+This example fine-tunes the pruned model for 50 epochs on the smaller COCO128 dataset as demonstration. In practice, you should use your actual dataset and a higher epoch count, closer to the original training, for better results. During training, the output logs will show if your constraints can be met:
 
 ```
                               Profiling Results                              
