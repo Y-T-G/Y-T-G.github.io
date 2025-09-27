@@ -242,6 +242,6 @@ The pruned model is also smaller: 62.7MB vs. 99MB (37% smaller). To test the spe
 
 ## Conclusion
 
-In this guide, we used NVIDIA Model Optimizer to prune the YOLOv8m model to 66% of its original FLOPs and reduced model size by 37%, with a slight boost in inference speed. Note that to load the `.pt` files from this training, you need to either use [custom branch described in the beginning](#modifying-model-saving-and-loading-mechanism), or export it to a different format. To learn more about ModelOpt's prune function and the available configurations, refer to [ModelOpt Pruning Docs](https://nvidia.github.io/TensorRT-Model-Optimizer/guides/3_pruning.html) and [GitHub examples](https://github.com/NVIDIA/TensorRT-Model-Optimizer/tree/main/examples/pruning).
+In this guide, we used NVIDIA Model Optimizer to prune the YOLOv8m model to 66% of its original FLOPs and reduced model size by 37%, with a slight boost in inference speed. Note that to load the `.pt` files from this training, you need to either use the [custom branch described in the beginning](#modifying-model-saving-and-loading-mechanism), or export it to a different format. To learn more about ModelOpt's prune function and the available configurations, refer to [ModelOpt Pruning Docs](https://nvidia.github.io/TensorRT-Model-Optimizer/guides/3_pruning.html) and [GitHub examples](https://github.com/NVIDIA/TensorRT-Model-Optimizer/tree/main/examples/pruning).
 
 Thanks for reading.
