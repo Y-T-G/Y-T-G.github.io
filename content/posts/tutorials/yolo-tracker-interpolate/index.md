@@ -32,7 +32,22 @@ disable_comments: false
 
 ## Introduction
 
-DeepStream has this cool feature where it lets you run inference on every *n*th frame while compensating the rest with predictions from the tracker. It's a pretty simple concept. In this guide, we'll replicate the same feature in `ultralytics`. Colab notebook with the full code can be found [here](https://colab.research.google.com/drive/1J4fo7Xs2HX4uzaI8C6QBuYorKYeRNqyG?usp=sharing).
+<a href="https://colab.research.google.com/drive/1J4fo7Xs2HX4uzaI8C6QBuYorKYeRNqyG?usp=sharing" target="_blank" style="text-decoration:none;">
+  <div style="display:inline-flex;align-items:center;padding:6px 12px;background-color:#F9AB00;border-radius:4px;color:#000;font-family:'Roboto','Helvetica','Arial',sans-serif;font-size:14px;font-weight:500;">
+    <svg viewBox="0 0 24 24" width="20" height="20" style="margin-right:8px;">
+      <g id="colab-logo">
+        <path d="M4.54,9.46,2.19,7.1a6.93,6.93,0,0,0,0,9.79l2.36-2.36A3.59,3.59,0,0,1,4.54,9.46Z" style="fill:var(--colab-logo-dark)"></path>
+        <path d="M2.19,7.1,4.54,9.46a3.59,3.59,0,0,1,5.08,0l1.71-2.93h0l-.1-.08h0A6.93,6.93,0,0,0,2.19,7.1Z" style="fill:var(--colab-logo-light)"></path>
+        <path d="M11.34,17.46h0L9.62,14.54a3.59,3.59,0,0,1-5.08,0L2.19,16.9a6.93,6.93,0,0,0,9,.65l.11-.09" style="fill:var(--colab-logo-light)"></path>
+        <path d="M12,7.1a6.93,6.93,0,0,0,0,9.79l2.36-2.36a3.59,3.59,0,1,1,5.08-5.08L21.81,7.1A6.93,6.93,0,0,0,12,7.1Z" style="fill:var(--colab-logo-light)"></path>
+        <path d="M21.81,7.1,19.46,9.46a3.59,3.59,0,0,1-5.08,5.08L12,16.9A6.93,6.93,0,0,0,21.81,7.1Z" style="fill:var(--colab-logo-dark)"></path>
+      </g>
+    </svg>
+    Open in Colab
+  </div>
+</a>
+
+DeepStream has this cool feature where it lets you run inference on every *n*th frame while compensating the rest with predictions from the tracker. It's a pretty simple concept. In this guide, we'll replicate the same feature in `ultralytics`. The Colab notebook contains the full code.
 
 ## Retrieving The Predictions From The Tracker
 

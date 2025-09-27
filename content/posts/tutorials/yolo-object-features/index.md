@@ -31,9 +31,24 @@ disable_comments: false
 
 ## Introduction
 
+<a href="https://colab.research.google.com/drive/1DrBqSBuwpRvauYaEvJ1_8PyR4lW5WJCF?usp=sharing" target="_blank" style="text-decoration:none;">
+  <div style="display:inline-flex;align-items:center;padding:6px 12px;background-color:#F9AB00;border-radius:4px;color:#000;font-family:'Roboto','Helvetica','Arial',sans-serif;font-size:14px;font-weight:500;">
+    <svg viewBox="0 0 24 24" width="20" height="20" style="margin-right:8px;">
+      <g id="colab-logo">
+        <path d="M4.54,9.46,2.19,7.1a6.93,6.93,0,0,0,0,9.79l2.36-2.36A3.59,3.59,0,0,1,4.54,9.46Z" style="fill:var(--colab-logo-dark)"></path>
+        <path d="M2.19,7.1,4.54,9.46a3.59,3.59,0,0,1,5.08,0l1.71-2.93h0l-.1-.08h0A6.93,6.93,0,0,0,2.19,7.1Z" style="fill:var(--colab-logo-light)"></path>
+        <path d="M11.34,17.46h0L9.62,14.54a3.59,3.59,0,0,1-5.08,0L2.19,16.9a6.93,6.93,0,0,0,9,.65l.11-.09" style="fill:var(--colab-logo-light)"></path>
+        <path d="M12,7.1a6.93,6.93,0,0,0,0,9.79l2.36-2.36a3.59,3.59,0,1,1,5.08-5.08L21.81,7.1A6.93,6.93,0,0,0,12,7.1Z" style="fill:var(--colab-logo-light)"></path>
+        <path d="M21.81,7.1,19.46,9.46a3.59,3.59,0,0,1-5.08,5.08L12,16.9A6.93,6.93,0,0,0,21.81,7.1Z" style="fill:var(--colab-logo-dark)"></path>
+      </g>
+    </svg>
+    Open in Colab
+  </div>
+</a>
+
 Every detected object in an object detection network has an associated feature used for the final prediction. These object-level features or embeddings from networks like YOLO are also valuable for various downstream tasks, such as similarity calculations used in re-identification. However, these features are not readily accessible, often leading people to use a separate network to obtain feature embeddings from object crops, which introduces unnecessary overhead.
 
-In this guide, we will extract these features directly from `ultralytics`, thereby avoiding the additional overhead. The Colab notebook with all the steps can be found [here](https://colab.research.google.com/drive/1DrBqSBuwpRvauYaEvJ1_8PyR4lW5WJCF?usp=sharing).
+In this guide, we will extract these features directly from `ultralytics`, thereby avoiding the additional overhead. The Colab notebook with all the steps can be found by clicking the "Open in Colab" badge above.
 
 ## Modifications To Obtain The Features
 

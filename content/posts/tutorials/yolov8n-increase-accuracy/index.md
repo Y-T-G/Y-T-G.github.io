@@ -30,6 +30,22 @@ disable_comments: false
 ---
 
 ## Introduction
+
+<a href="https://colab.research.google.com/drive/1TMiwfu1WPzCPxlW8c4ontN9iyzzTHUH3?usp=sharing" target="_blank" style="text-decoration:none;">
+  <div style="display:inline-flex;align-items:center;padding:6px 12px;background-color:#F9AB00;border-radius:4px;color:#000;font-family:'Roboto','Helvetica','Arial',sans-serif;font-size:14px;font-weight:500;">
+    <svg viewBox="0 0 24 24" width="20" height="20" style="margin-right:8px;">
+      <g id="colab-logo">
+        <path d="M4.54,9.46,2.19,7.1a6.93,6.93,0,0,0,0,9.79l2.36-2.36A3.59,3.59,0,0,1,4.54,9.46Z" style="fill:var(--colab-logo-dark)"></path>
+        <path d="M2.19,7.1,4.54,9.46a3.59,3.59,0,0,1,5.08,0l1.71-2.93h0l-.1-.08h0A6.93,6.93,0,0,0,2.19,7.1Z" style="fill:var(--colab-logo-light)"></path>
+        <path d="M11.34,17.46h0L9.62,14.54a3.59,3.59,0,0,1-5.08,0L2.19,16.9a6.93,6.93,0,0,0,9,.65l.11-.09" style="fill:var(--colab-logo-light)"></path>
+        <path d="M12,7.1a6.93,6.93,0,0,0,0,9.79l2.36-2.36a3.59,3.59,0,1,1,5.08-5.08L21.81,7.1A6.93,6.93,0,0,0,12,7.1Z" style="fill:var(--colab-logo-light)"></path>
+        <path d="M21.81,7.1,19.46,9.46a3.59,3.59,0,0,1-5.08,5.08L12,16.9A6.93,6.93,0,0,0,21.81,7.1Z" style="fill:var(--colab-logo-dark)"></path>
+      </g>
+    </svg>
+    Open in Colab
+  </div>
+</a>
+
 Small object detection is usually a challenging task since the size of the objects makes it difficult for the features to be adequately represented in the backbone. There have been numerous improvements in object detection architectures over the years to increase small object detection accuracy. Such as the addition of feature pyramid layers that produce feature maps at multiple scales to ensure the extracted features have both coarse and fine features. YOLOv8 provides two additional variants that make use of extra scales to help with small and large object detection, namely the p2 and p6 models respectively. However, the p2 model comes with an additional cost due to the extra feature scale that gets added. For example, the original YOLOv8n model consumes 8.9 GFLOPs while the YOLOv8n-p2 model almost doubles that to 17.4 GFLOPs:
 ```bash
 YOLOv8n-p2 summary: 277 layers, 3354144 parameters, 3354128 gradients, 17.4 GFLOPs
@@ -38,7 +54,7 @@ YOLOv8n-p2 summary: 277 layers, 3354144 parameters, 3354128 gradients, 17.4 GFLO
 
 Besides the difficulty in representing the features of small objects, there's another reason why you might observe low mAP in small object detection, which is the use of IoU-based loss. For small objects, IoU is not a good metric to measure performance because small discrepancies in the predictions can often lead to large variations in loss, making the training less stable. You can read [this article](https://deci.ai/blog/small-object-detection-challenges-and-solutions/) by Deci AI for a more detailed explanation on why that's the case. It also discusses why mAP50-95 isn't appropriate for measuring the performance of a detector on small objects.
 
-A better target while training an object detector to detect small objects is the distance between the centers of the predicted and ground-truth boxes. This makes the loss less sensitive to the predicted box not accurately "hugging" the object, which is not a big deal for small objects as the difference is visually negligible. There is a simple trick that can be used to do this with YOLOv8, which I will explain in the next few sections. The whole code can be found in this [Colab notebook](https://colab.research.google.com/drive/1TMiwfu1WPzCPxlW8c4ontN9iyzzTHUH3?usp=sharing).
+A better target while training an object detector to detect small objects is the distance between the centers of the predicted and ground-truth boxes. This makes the loss less sensitive to the predicted box not accurately "hugging" the object, which is not a big deal for small objects as the difference is visually negligible. There is a simple trick that can be used to do this with YOLOv8, which I will explain in the next few sections. The whole code can be found in the Colab notebook.
 
 ## An Example: TT100K Dataset
 TT100K dataset is a large-scale dataset for traffic sign detection and classification made available by the Tencent Lab at Tsinghua University. Since it involves detecting traffic signs, it naturally consists of a lot of small objects. This makes it suitable for testing our theory. I won't be using the whole dataset here (since I don't have a GPU to run it for that long), and instead, I will be using the one from [Roboflow](https://universe.roboflow.com/traffic-7yixa/traffic-signs-gagqf) that has about 20k images. We will first train a normal YOLOv8n model to test our mileage. I only ran it for just 10 epochs because Colab's generosity ends too quickly for me to do anything more:

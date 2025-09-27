@@ -37,7 +37,22 @@ cite:
   publisher: Unpublished
 ---
 
-## Introduction  
+## Introduction
+
+<a href="https://colab.research.google.com/drive/1SF4lKh8gwWnYwTn2Iobf3--UL7czGepX" target="_blank" style="text-decoration:none;">
+  <div style="display:inline-flex;align-items:center;padding:6px 12px;background-color:#F9AB00;border-radius:4px;color:#000;font-family:'Roboto','Helvetica','Arial',sans-serif;font-size:14px;font-weight:500;">
+    <svg viewBox="0 0 24 24" width="20" height="20" style="margin-right:8px;">
+      <g id="colab-logo">
+        <path d="M4.54,9.46,2.19,7.1a6.93,6.93,0,0,0,0,9.79l2.36-2.36A3.59,3.59,0,0,1,4.54,9.46Z" style="fill:var(--colab-logo-dark)"></path>
+        <path d="M2.19,7.1,4.54,9.46a3.59,3.59,0,0,1,5.08,0l1.71-2.93h0l-.1-.08h0A6.93,6.93,0,0,0,2.19,7.1Z" style="fill:var(--colab-logo-light)"></path>
+        <path d="M11.34,17.46h0L9.62,14.54a3.59,3.59,0,0,1-5.08,0L2.19,16.9a6.93,6.93,0,0,0,9,.65l.11-.09" style="fill:var(--colab-logo-light)"></path>
+        <path d="M12,7.1a6.93,6.93,0,0,0,0,9.79l2.36-2.36a3.59,3.59,0,1,1,5.08-5.08L21.81,7.1A6.93,6.93,0,0,0,12,7.1Z" style="fill:var(--colab-logo-light)"></path>
+        <path d="M21.81,7.1,19.46,9.46a3.59,3.59,0,0,1-5.08,5.08L12,16.9A6.93,6.93,0,0,0,21.81,7.1Z" style="fill:var(--colab-logo-dark)"></path>
+      </g>
+    </svg>
+    Open in Colab
+  </div>
+</a>
   
 Newcomers to deep learning often seem to ask this one question: how do they go about adding extra classes to an already trained model? The answer to this question is not usually what they want. When they say they want to add classes, they mean incrementally adding those classes without affecting the performance of the already trained classes. They usually ask this in the context of pre-trained models, such as models pre-trained on the MS COCO dataset.  
   
@@ -49,7 +64,7 @@ So there are a couple of options available to someone who wants to add new class
 2. Download a smaller version of the dataset such as [COCO-minitrain](https://github.com/giddyyupp/coco-minitrain) and then do the same as in 1, add your classes and retrain. This is less cumbersome than training on the whole MS-COCO dataset, however, there's no guarantee that your model will continue to perform as well as the original on the COCO classes. After all, the performance of deep learning models depends a lot on the amount of data used to train them.  
 3. Add an extra head just for the new classes and train the new head. This is a lesser-known and more surgical option, but it has the benefit that you can keep the existing weights undisturbed and the performance on the existing classes remains the same, while also avoiding the large data requirement and long training times of Option 1, and the potential performance degradation of Option 2.  
   
-In this guide, we will attempt Option 3 on the YOLOv8n COCO pretrained model. Although this guide is for YOLOv8n, the idea remains the same for all deep learning models with task-specific heads, including image classification and segmentation models.  The notebook with all the code is available [here](https://colab.research.google.com/drive/1SF4lKh8gwWnYwTn2Iobf3--UL7czGepX).
+In this guide, we will attempt Option 3 on the YOLOv8n COCO pretrained model. Although this guide is for YOLOv8n, the idea remains the same for all deep learning models with task-specific heads, including image classification and segmentation models. The notebook with all the code can be accessed by clicking "Open in Colab" badge above.
 
 ## Training a custom model
 
