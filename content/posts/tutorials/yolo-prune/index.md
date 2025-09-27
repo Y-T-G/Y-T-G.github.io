@@ -47,7 +47,7 @@ disable_comments: false
   </div>
 </a>
 
-[NVIDIA Model Optimizer](https://github.com/NVIDIA/TensorRT-Model-Optimizer) (ModelOpt) is a toolkit by NVIDIA that provides model optimization strategies through an easy-to-use API. It minimizes the code changes needed to apply state-of-the-art optimizations by using a wrapper-based approach that preserves the model's attributes while performing optimization behind the scenes. In this guide, we will prune and fine-tune the Ultralytics YOLOv8m model using NVIDIA's Model Optimizer and show how simple the process is. The Colab notebook with the full code can be accessed by clicking the "Open in Colab" badge above.
+[NVIDIA Model Optimizer](https://github.com/NVIDIA/TensorRT-Model-Optimizer) (ModelOpt) is NVIDIA’s unified toolkit for model optimization. It reduces the code changes needed to apply advanced optimization techniques by transparently wrapping the original model, preserving its attributes and behavior while enabling optimizations behind the scenes. In this guide, we will use ModelOpt to prune and fine-tune the Ultralytics YOLOv8m model and show how simple the process is. The Colab notebook with the full code can be accessed by clicking the "Open in Colab" badge above.
 
 ## Modifying Model Saving and Loading Mechanism
 
