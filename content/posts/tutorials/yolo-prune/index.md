@@ -21,7 +21,6 @@ tags:
   - YOLO
   - Object Detection
 series:
-  - NVIDIA Model Optimizer
 
 toc: true
 related: true
