@@ -1,8 +1,8 @@
 ---
 title: Pruning Ultralytics YOLO Models with NVIDIA Model Optimizer
 seo_title: Pruning Ultralytics YOLO Models with NVIDIA Model Optimizer
-summary: Prune Ultralytics YOLO models with NVIDIA Model Optimizer and then fine-tune it using Ultralytics for improved accuracy and performance.
-description: Prune Ultralytics YOLO models with NVIDIA Model Optimizer and then fine-tune it using Ultralytics for improved accuracy and performance.
+summary: Prune YOLO models with NVIDIA Model Optimizer and then fine-tune them using Ultralytics to produce smaller, faster and more efficient models.
+description: Prune YOLO models with NVIDIA Model Optimizer and then fine-tune them using Ultralytics to produce smaller, faster and more efficient models.
 slug: yolo-prune
 author: Mohammed Yasin
 
