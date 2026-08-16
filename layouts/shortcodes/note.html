@@ -1,0 +1,6 @@
+{{/* Callout block. Usage: {{< note title="Update (16/8/2026)" >}} body {{< /note >}} */}}
+{{ $title := .Get "title" | default (.Get 0) }}
+<div class="note">
+  {{ with $title }}<span class="note-title">{{ . }}</span>{{ end }}
+  {{ .Inner | markdownify }}
+</div>

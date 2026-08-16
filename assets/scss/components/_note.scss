@@ -1,0 +1,23 @@
+.note {
+  background-color: var(--color-contrast-lower);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 5px;
+  padding: 15px 20px;
+  margin: 1.5em 0;
+  @include font-size('base');
+
+  p {
+    margin: 0;
+
+    + p {
+      margin-top: 0.6em;
+    }
+  }
+}
+
+.note-title {
+  display: block;
+  color: var(--color-primary);
+  font-weight: 500;
+  margin-bottom: 5px;
+}
