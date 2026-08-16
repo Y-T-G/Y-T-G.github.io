@@ -75,37 +75,34 @@ h6 {
 }
 
 table {
-  border-collapse: collapse;    
+  border-collapse: collapse;
   display: block;
+  width: fit-content;
+  max-width: 100%;
   overflow-x: auto;
+  margin: 1.5em auto;
+  font-family: $text-font-stack;
+  font-size: 1rem;      // same as pre and inline code
+  line-height: 1.6rem;
+  border: 1px solid var(--color-contrast-low);
+  border-radius: 5px;
 }
 
 td, th {
-  border: 1px solid var(--color-contrast-medium-low);
   padding: 10px 20px;
-  font-size: 0.9rem;
-  line-height: 1.4rem;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
 }
 
 th {
-  border: 1px solid var(--color-contrast-medium);
-  background-color: var(--color-contrast-medium-low);
-  color: var(--color-contrast-high);
-  font-size: 1rem;
-}
-
-td {
-  text-align: center;
-}
-
-tr:nth-child(even) td {
-  background-color: var(--color-contrast-lower);
-  color: var(--color-contrast-high);
-}
-
-tr:nth-child(odd) td {
   background-color: var(--color-contrast-low);
   color: var(--color-contrast-high);
+  font-weight: 500;
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--color-contrast-lower);
 }
 
 blockquote {
