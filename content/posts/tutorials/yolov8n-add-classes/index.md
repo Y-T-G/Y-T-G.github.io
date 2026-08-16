@@ -54,6 +54,8 @@ cite:
   </div>
 </a>
   
+**Update (16/8/2026):** There is now a much simpler way to do this. The approach in this guide has been turned into a trainer for Ultralytics, so adding a class is a single argument in `model.train()` instead of a library patch and a manual state dict merge. See [Adding New Classes to a Trained YOLO Model Without Affecting Old Weights](/tutorials/yolo-refine-classes). You can still read on if you want to learn how the idea works.
+  
 Newcomers to deep learning often seem to ask this one question: how do they go about adding extra classes to an already trained model? The answer to this question is not usually what they want. When they say they want to add classes, they mean incrementally adding those classes without affecting the performance of the already trained classes. They usually ask this in the context of pre-trained models, such as models pre-trained on the MS COCO dataset.  
   
 The difficulty arises from the fact that weights in a deep learning model are not specific to any class such that you can freeze some specific weights and thereby freeze the performance of the model on specific classes, and then train others or add newer ones. Without modifying the architecture, you'll always end up disturbing existing weights and consequently the model's performance on the trained classes.  
