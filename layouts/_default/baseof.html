@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode | default "en-US" }}">
+<html lang="{{ .Site.Language.Locale | default "en-US" }}">
   {{- partial "head/head.html" . -}}
   <body>
     {{ if and (not hugo.IsServer) (.Site.Params.gtm_id) }}

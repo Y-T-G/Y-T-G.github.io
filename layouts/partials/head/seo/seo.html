@@ -19,7 +19,7 @@
   {{- else -}}
     {{- .Title -}}
   {{- end -}}
-  {{ if (not .IsPage)}}
+  {{ if in (slice "home" "section" "taxonomy" "term") .Kind }}
     {{- $paginator := .Paginate .RegularPagesRecursive }}
     {{- with $paginator -}}
       {{ if and (gt $paginator.TotalPages 1) (gt $paginator.PageNumber 1) }}

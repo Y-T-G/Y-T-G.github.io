@@ -1,6 +1,6 @@
 ### General
 baseURL = 'https://Y-T-G.github.io' # Enter your full production URL
-languageCode = 'en-us' # Default
+locale = 'en-us' # Default
 timeZone = 'Asia/Kuala_Lumpur' # IANA timezone https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 title = '''Yasin's Keep''' # Site title used throughout site
 
@@ -138,10 +138,7 @@ citations = true # Enable citations
   [caches.assets]
     dir = ':resourceDir/_gen'
     maxAge = -1
-  [caches.getcsv]
-    dir = ':cacheDir/:project'
-    maxAge = -1
-  [caches.getjson]
+  [caches.getresource]
     dir = ':cacheDir/:project'
     maxAge = -1
   [caches.images]
@@ -170,11 +167,11 @@ citations = true # Enable citations
   minifyOutput = false
   [minify.tdewolff]
     [minify.tdewolff.css]
-      keepCSS2 = true
+      version = 2
       precision = 0
     [minify.tdewolff.html]
       keepComments = false
-      keepConditionalComments = true
+      keepSpecialComments = true
       keepDefaultAttrVals = true
       keepDocumentTags = true
       keepEndTags = true
