@@ -114,7 +114,7 @@ The above snippet will only fine-tune the `bowl` and `orange` classes and leave 
 
 ## How it works
 
-Adding a class to an existing head is only possible because YOLO scores classes with a per-class sigmoid and not a softmax. Each row of the classification output is an independent detector that answers whether the object is a license plate or not, and the scores are never normalized across the classes. An 81st row is therefore purely additive, and nothing about the first 80 rows has to change for it to exist. Under a softmax, adding a row would rescale every other class and none of this would work. The earlier guide relied on the same property as well, but it avoided touching the head at all by building a second one next to it.
+Adding a class to an existing head is only possible because YOLO scores classes with a per-class sigmoid and not a softmax. Each row of the classification output is an independent detector that answers whether the object is a license plate or not, and the scores are never normalized across the classes. An 81st row is therefore purely additive, and nothing about the first 80 rows has to change for it to exist. Under a softmax, adding a row would rescale every other class and none of this would work.
 
 The trainer attaches a small extra branch to the detection head, one sequence per detection layer, and freezes everything else. The branch uses the same depthwise blocks as the existing classification branch, a quarter as wide and twice as deep, ending in a `1x1` convolution that outputs one channel per tuned class plus the box distribution channels:
 
@@ -145,9 +145,9 @@ for branch, index in zip(refine, self.refine_classes):
     boxes = boxes + gate * r[:, nr:]
 ```
 
-For the class scores, `index_add` adds the deltas to the rows of the tuned classes and leaves every other row untouched. The boxes need the gate because there is only one box per anchor and it is shared by all classes, so a box delta cannot be applied to one class alone. The gate scales the delta by the confidence of the tuned classes at that anchor, which is near zero where the new class is not present, so the boxes of the old classes stay where they were. It is detached so that the box loss cannot raise the class scores as a shortcut to unlock a larger box correction. This is also the only part of the model where the guarantee is not exact: the class scores of the untuned classes are bit-identical, but their boxes can shift slightly on the few anchors where a tuned class is confident.
+For the class scores, `index_add` adds the deltas to the rows of the tuned classes and leaves every other row untouched. The boxes need the gate because there is only one box per anchor and it is shared by all classes, so a box delta cannot be applied to one class alone. The gate scales the delta by the confidence of the tuned classes at that anchor, which is near zero where the new class is not present, so the boxes of the old classes stay where they were. It is detached so that the box loss cannot raise the class scores as a shortcut to unlock a larger box correction. This is also why the class scores of the untuned classes are identical, but their boxes can shift slightly.
 
-This is also where the two approaches differ the most in what comes out of the model. The second head in the earlier guide predicted its own set of anchors, so merging the two heads stacked them along the anchor dimension and doubled their number, from 8400 to 16800 for a 640 input. Half of those anchors carried zeros in the class rows of the COCO classes and the other half carried zeros in the rows of the new ones, and NMS then had twice as many candidates to sort through on every image. The refinement branch does not touch the anchor dimension at all. It only adds a row to the class dimension, so an 81-class refined model produces the same output shape as any other 81-class detection model, and NMS, postprocessing and export see nothing unusual.
+This is also where the two approaches differ the most in terms of output. The second head in the earlier guide predicted its own set of anchors, so merging the two heads stacked them along the anchor dimension and doubled their number, from 8400 to 16800 for a 640 input. Half of those anchors carried zeros in the class rows of the COCO classes and the other half carried zeros in the rows of the new ones, and NMS then had twice as many candidates to sort through on every image. The refinement branch does not touch the anchor dimension at all. It only adds a row to the class dimension, so an 81-class refined model produces the same output shape as any other 81-class detection model, and NMS, postprocessing and export see nothing unusual.
 
 Freezing the rest of the model needs a bit more care than freezing layers. The backbone, the neck and the box branches are frozen outright, but the classification branch has to keep its last layer trainable because the new class needs a row in it. The gradients of the other rows are zeroed with a hook:
 
@@ -168,7 +168,7 @@ def optimizer_step(self):
             p[rows] = weights
 ```
 
-The EMA is restored along with the model. It is what gets validated and saved, and the optimizer does move the live rows for the duration of a step, so an EMA that was not restored would average those excursions into the saved checkpoint. Batch normalization statistics are not an issue here, unlike in the earlier guide, because frozen layers in Ultralytics no longer update them.
+The EMA is restored along with the model. This is because the optimizer does move all the unfrozen rows for the duration of a step, including the rows of the classes that are not being trained. It's only after the step that we restore the old weights. But the movement has already occurred during that window, and the EMA has already recorded it. So an EMA that was not restored would average those movements into the saved checkpoint. Batch normalization statistics are not an issue here, unlike in the earlier guide, because frozen layers in Ultralytics no longer update them.
 
 Finally, the head has to be extended to hold the new class. This is done in place on the pre-trained model rather than by rebuilding it from its YAML, because the width of the classification output depends on the class count, and rebuilding a head for 81 classes would discard the pre-trained weights of all 80. A new output convolution is created instead, the pre-trained rows are copied into it by name, and the new rows get a zero weight with the standard `Detect` bias so the new class predicts nothing until it is trained.
 
@@ -196,14 +196,14 @@ Only `license-plate` appears in the metrics, because `classes` restricts the val
   alt="comparison of the predictions from the pretrained and the refined model"/>
 </p>
 
-The four cars are detected identically by both models, down to the confidences, and the plate is detected at 0.95 by the refined one. This is the whole point of the approach, and it comes at the following cost:
+The cars are detected identically by both models, down to the confidences, and the plate is detected at 0.95 by the refined one. The refinement adds 2% more parameters to the model:
 
 | Model             | Parameters | GFLOPs |
 | ----------------- | ---------- | ------ |
 | YOLO11n           | 2,616,248  | 6.5    |
 | YOLO11n + 1 class | 2,669,886  | 6.7    |
 
-That is 2% more parameters for the added class. The branch width does not depend on the number of classes it refines, only the output convolution does, so tuning five classes in one session costs about the same as tuning one. What comes out is an ordinary checkpoint, and prediction, validation and export work as usual without the patched branch installed, i.e. you can install the official Ultralytics again and load this `.pt` file without an issue. This is unlike the old approach, where the modified repo had to stay installed for the loading to work.
+The branch width does not depend on the number of classes it refines, only the output convolution does, so tuning five classes in one session costs about the same as tuning one. At the end of the training, what you get is a normal checkpoint, and prediction, validation and export work as usual without the patched branch installed, i.e. you can install the official Ultralytics again and load this `.pt` file without an issue. This is unlike the old approach, where the modified repo had to stay installed for the loading to work.
 
 ## Adding classes in more than one session
 
